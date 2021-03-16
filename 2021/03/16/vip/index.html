@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>manjoar | Hexo</title>
-  <meta name="keywords" content=" Linux ">
-  <meta name="description" content="manjoar | Hexo">
+  <title>改造 Vip | Hexo</title>
+  <meta name="keywords" content=" Laravel ">
+  <meta name="description" content="改造 Vip | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -403,9 +403,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-manjoar" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-vip" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">manjoar</h1>
+        <h1 class="article-title">改造 Vip</h1>
     
     <div class="article-meta">
         
@@ -415,7 +415,7 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="运维">运维</a>
+            <a  data-rel="PHP">PHP</a>
             
         </span>
         
@@ -423,14 +423,14 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color1">Linux</a>
+            <a class="color3">Laravel</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-03-16 12:14:33'>2021-03-15 21:56</time>
+            发布时间 : <time class="date" title='最后更新: 2021-03-16 18:54:53'>2021-03-16 18:53</time>
         
     </div>
     <div class="article-meta">
@@ -452,7 +452,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%89%80%E5%9C%A8"><span class="toc-text">问题所在</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="toc-text">伪代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B9%E9%80%A0-%E5%88%9B%E5%BB%BA%E8%AE%A2%E5%8D%95"><span class="toc-text">改造- 创建订单</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E6%A8%A1%E5%9D%97%E5%8C%BA%E5%88%86%E4%B8%8D%E5%90%8C%E7%9A%84%E4%B8%8B%E5%8D%95%E9%93%BE%E6%8E%A5"><span class="toc-text">按模块区分不同的下单链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F"><span class="toc-text">策略模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%AE%A2%E5%8D%95%E7%AD%96%E7%95%A5"><span class="toc-text">创建订单策略</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -468,7 +468,173 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="问题所在"><a href="#问题所在" class="headerlink" title="问题所在"></a>问题所在</h2><blockquote>
+<ul>
+<li>全部支付走统一的二维码生成接口，导致通过 type 区分需要的字段，支付方式越来越多，判断也越来越多，难以维护</li>
+<li>代码解构混乱，一个 <code>$data</code> 变量贯通整个方法，导致最后不知道 <code>$data</code> 变量里面什么数据，开发、排错越来越复杂</li>
+<li>异常处理，业务代码处处抛出 <code>Exception</code> 和捕获 <code>\Exception</code> ，导致真正程序的异常无法定位异常</li>
+</ul>
+</blockquote>
+<h2 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h2><p>获取二维码接口</p>
+<p>捕获了业务逻辑抛出 <code>\Exception</code>， 并返回错误给前端，如果有程序上的异常则难以排查错误</p>
+<pre><code class="php">public function qrcode(Request $request)
+&#123;
+    try &#123;
+        $key = $this-&gt;checkVerifyType(0, 1);
+        return $key;
+    &#125; catch (\Exception $e) &#123;
+        return &#39;下单失败&#39;;
+    &#125;
+&#125;
+</code></pre>
+<p>单看方法名只是检查支付 <code>type</code> 是否正确, 但却把所有的事都干完了</p>
+<p>各种数据全部塞进 <code>$data</code> 中, 其他地方调用后根本不知道 <code>$data</code>里面到底有什么数据</p>
+<p>业务逻辑抛出 <code>\Exception</code> ，会导致正正程序上有异常时</p>
+<pre><code class="php">private function checkVerifyType($payType1 = 0, $payType2 = 0)
+&#123;
+    $data = request()-&gt;all();
+
+    if (!ctype_digit(strval($data[&#39;type&#39;]))) &#123;
+        throw new \Exception(&#39;type err&#39;);
+    &#125;
+
+    switch ($data[&#39;type&#39;]) &#123;
+        case &#39;vip&#39;:
+            // ... 验证
+            $data[&#39;vip_info&#39;] = Vip::where(&#39;code&#39;, $data[&#39;code&#39;])-&gt;first();
+            break;
+        case &#39;recharge&#39;:
+            // ... 验证
+            $data[&#39;money&#39;] = $data[&#39;money&#39;];
+            break;
+        // case...
+    &#125;
+
+    // 优惠券判断
+    if ($data[&#39;coupon_id&#39;]) &#123;
+        $money = Coupon::where(&#39;id&#39;, $data[&#39;coupon_id&#39;])-&gt;value(&quot;money&quot;);
+        $data[&#39;reduce&#39;] = $money;
+        // ....
+    &#125;
+
+    // 订单预览信息
+    $data[&#39;show_title&#39;] = &quot;购买一个会员&quot;;
+    $data[&#39;show_money&#39;] = 100;
+    $key = &quot;abcdefg&quot;;
+    Redis::set($key, $data);
+
+    return $key;
+&#125;
+</code></pre>
+<h2 id="改造-创建订单"><a href="#改造-创建订单" class="headerlink" title="改造- 创建订单"></a>改造- 创建订单</h2><blockquote>
+<ol>
+<li><p>涉及支付的模块有：开通会员、充值、购买单个商品等</p>
+</li>
+<li><p>开发支付流程：</p>
+<ol>
+<li>生成二维码（生成临时订单 <code>redis</code>，返回 <code>redis</code> 零时订单 <code>key</code>）</li>
+<li>手机端确认购买信息（展示购买商品信息）</li>
+<li>手机端确认支付 （通过临时订单的 <code>key</code> ，创建一条订单数据到数据库）</li>
+</ol>
+</li>
+<li><p>创建订单和预览订单使用 <code>策略模式</code> </p>
+</li>
+</ol>
+</blockquote>
+<h3 id="按模块区分不同的下单链接"><a href="#按模块区分不同的下单链接" class="headerlink" title="按模块区分不同的下单链接"></a>按模块区分不同的下单链接</h3><ol>
+<li><p>开通会员： <code>/buy/vip</code></p>
+</li>
+<li><p>充值：<code>/buy/recharge</code></p>
+</li>
+<li><p>购买商品：<code>/buy/goods</code></p>
+</li>
+</ol>
+<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><p>Ref: <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903748788027400">策略模式原来这么简单！</a></p>
+<h3 id="创建订单策略"><a href="#创建订单策略" class="headerlink" title="创建订单策略"></a>创建订单策略</h3><ol>
+<li><p>创建一个订单的 <code>抽象策略</code>，定义算法的接口，所有策略必须实现临时订单的接口，</p>
+<p>app/Http/Services/PayOrder/PayOrderStrategy.php</p>
+<pre><code class="php">abstract class PayOrderStrategy
+&#123;
+    abstract function createTemporaryOrder($request);
+&#125;
+</code></pre>
+</li>
+<li><p>创建一个 <code>Context</code> 类</p>
+<p>app/Http/Services/PayOrder/PayOrderStrategy.php</p>
+<pre><code class="php">class PayOrderContext
+&#123;
+    private $strategy;
+
+    public function __construct(PayOrderStrategy $payOrderStrategy)
+    &#123;
+        return $this-&gt;strategy = $payOrderStrategy;
+    &#125;
+
+    public function createOrder(Request $request)
+    &#123;
+        return $this-&gt;strategy-&gt;createTemporaryOrder($request);
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>创建具体的支付策略</p>
+<pre><code class="php">// 开通 vip
+class VipStrategy extends PayOrderStrategy
+&#123;
+    function createTemporaryOrder(Request $request)
+    &#123;
+        $packageCode = $request[&#39;code&#39;];
+        $package     = app(PayOrderService::class)-&gt;getVipByCode($packageCode);
+
+        // 临时订单数据
+        $tmpOrder = [
+            &#39;package_cope&#39; =&gt; $package-&gt;toArray(),
+            &#39;ip&#39;           =&gt; $request-&gt;ip(),
+            // ....
+        ];
+
+        return app(PayOrderService::class)-&gt;saveTemporaryOrder($tmpOrder);
+    &#125;
+&#125;
+</code></pre>
+<p> 创建一个订单服务类，写一些创建订单的公共方法</p>
+<p>app/Http/Services/PayOrderService.php</p>
+<pre><code>class PayOrderService
+&#123;
+    // 通过 code 查询 vip 套餐信息
+    public function getVipByCode(string $code)
+    &#123;
+            // 这里应是从数据库获取数据返回
+        return collect([&#39;id&#39; =&gt; 1, &#39;code&#39; =&gt; &#39;vip1&#39;, &#39;price&#39; =&gt; 100, &#39;vip_day&#39; =&gt; 30]);
+    &#125;
+
+    // 保存临时订单
+    public function saveTemporaryOrder(array $tmpOrder)
+    &#123;
+        $key = Uuid::uuid4()-&gt;toString();
+        Cache::set(&#39;pay:&#39; . $key, $tmpOrder, 3);
+
+        return $key;
+    &#125;
+
+&#125;
+</code></pre>
+</li>
+<li><p>目前的目录解构</p>
+<p>app/Http/Services/</p>
+<pre><code class="php">├── PayOrder
+│   ├── PayOrderContext.php
+│   ├── PayOrderStrategy.php
+│   └── Strategy
+│       └── VipStrategy.php
+└── PayOrderService.php
+</code></pre>
+</li>
+<li><p>现在开通 <code>vip</code> 就可以使用上面创建好的策略类了</p>
+<p>数据验证使用 <code>laravel</code> <a target="_blank" rel="noopener" href="https://learnku.com/docs/laravel/5.6/validation/1372#106bee">表单请求验证</a></p>
+</li>
+</ol>
+
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 jaytp@qq.com </span>
     </div>
