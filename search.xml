@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>hexo</title>
+      <link href="2021/03/16/hexo/"/>
+      <url>2021/03/16/hexo/</url>
+      
+        <content type="html"><![CDATA[<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><ol><li>abc </li><li>def</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Manjoar </tag>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="2021/03/16/hello-world/"/>
       <url>2021/03/16/hello-world/</url>
