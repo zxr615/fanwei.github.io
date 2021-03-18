@@ -7,21 +7,21 @@ tags:
 date: 2021-03-18 14:44:45
 ---
 
-> 最近接到一个涉及支付的需求，有点头大，所以捋了捋逻辑，看了下时间，还是足够的，所以就重写了一遍支付模块，抽空记录一下过程。
+最近接到一个涉及支付的需求，旧代码看的有点头大，所以捋了捋逻辑，看了下时间，还是足够的，所以就重写了一遍支付模块，抽空记录一下过程。
 
 ## 问题所在
 
-> - 全部支付走统一的二维码生成接口，导致需要通过 type 区分接收不同的字段，随着支付方式越来越多，参数判断越来越多，难以维护
-> - 代码解构混乱，一个 `$data` 变量贯通整个方法，导致最后不知道 `$data` 变量里面什么数据，开发、排错越来越复杂
-> - 异常处理，业务代码处处抛出 `\Exception` 和捕获 `\Exception` ，导致如果程序遇到了系统异常也不能及时的通知错误
+- 全部支付走统一的二维码生成接口，导致需要通过 type 区分接收不同的字段，随着支付方式越来越多，参数判断越来越多，难以维护
+- 代码解构混乱，一个 `$data` 变量贯通整个方法，导致最后不知道 `$data` 变量里面什么数据，开发、排错越来越复杂
+- 异常处理，业务代码处处抛出 `\Exception` 和捕获 `\Exception` ，导致如果程序遇到了系统异常也不能及时的通知错误
 
 ## 改造前的一段伪代码
 
 1. 所有业务逻辑错误也抛出 `\Exception` 异常，捕获 `\Exception` 后返回 `下单失败` 导致如果程序遇到真正错误时，无法及时排查错误
-  2. 单看 `checkVerifyType()` 方法名会认为只是检查支付 `type` 是否正确， 但却不是，这个方法把所有该干不该干的事都干完了
-  3. 传参用 `0` ，`1` 也不能明确知道是代表什么东西
-  4. `qrcode` 接口参数也很复杂，例：`type` = 1时，必须要 `code` 参数； `type` = 2 时，必须要 `price` 参数；`type` = 3 时  ....
-  5. `$data` 里面各种数据，有：请求数据，订单临时数据，订单预览数据，根据购买商品的不同又放入不同的数据，结果 `$data` 就是个大杂烩，修改起来实在一言难尽
+2. 单看 `checkVerifyType()` 方法名会认为只是检查支付 `type` 是否正确， 但却不是，这个方法把所有该干不该干的事都干完了
+3. 传参用 `0` ，`1` 也不能明确知道是代表什么东西
+4. `qrcode` 接口参数也很复杂，例：`type` = 1时，必须要 `code` 参数； `type` = 2 时，必须要 `price` 参数；`type` = 3 时  ....
+5. `$data` 里面各种数据，有：请求数据，订单临时数据，订单预览数据，根据购买商品的不同又放入不同的数据，结果 `$data` 就是个大杂烩，修改起来实在一言难尽
 
 ```php
 // 所有购买入口获取二维码的入口
@@ -178,7 +178,7 @@ protected function fail($msg = 'ok', $data = [], $code = self::SUCCESS_FAIL)
 
     > 开通 vip 策略
 
-    `$request` 是[开通 vip](#实现开通-vip-接口) 接口中传入的 `$request`
+    `$request` 是[开通 vip](#实现开通vip接口) 接口中传入的 `$request`
 
     app/Http/Services/PayOrder/Strategy/VipStrategy.php
 
@@ -250,7 +250,7 @@ protected function fail($msg = 'ok', $data = [], $code = self::SUCCESS_FAIL)
     └── PayOrderService.php
     ```
 
-### 实现开通 vip 接口
+### 实现开通vip接口
 
 所有接口的数据都是通过 `laravel` [表单请求验证](https://learnku.com/docs/laravel/5.6/validation/1372#106bee)
 
@@ -368,8 +368,8 @@ curl http://127.0.0.1:8000/buy/vip?code=vip1 | json
     `http://127.0.0.1:8000/buy/preview?key=35349845-0e76-4973-b240-67e7b3cdda42`
 
      <div center="left">
-         <img src="https://cdn.jsdelivr.net/gh/zxr615/md-images/images/2020image-20210317142724525.png" alt="下单二维码" style="zoom:30%" />
-         <img src="https://cdn.jsdelivr.net/gh/zxr615/md-images/images/2020image-20210317142241260.png" alt="手机确认支付页面" style="zoom:30%;" />
+         <img src="https://cdn.jsdelivr.net/gh/zxr615/md-images/images/2020image-20210317142724525.png" alt="下单二维码" width=150 />
+         <img src="https://cdn.jsdelivr.net/gh/zxr615/md-images/images/2020image-20210317142241260.png" alt="手机确认支付页面" width=150 />
      </div>
 
 
