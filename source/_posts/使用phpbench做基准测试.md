@@ -64,7 +64,9 @@ class Test
 
 ### 执行测试
 
-`phpbench run tests/Benchmark/Test.php --report=default`
+```
+phpbench run tests/Benchmark/Test.php --report=default
+```
 
 ## 结果
 
@@ -87,5 +89,13 @@ suite: 134628febd27af811e3ceaa765bccf4c891bc2f4, date: 2021-03-19, stime: 04:11:
 | Test      | benchConsume | 0   | 1    | 0    | 4,270,848b | 481.000μs | 0.00σ        | 0.00%          |
 +-----------+--------------+-----+------+------+------------+-----------+--------------+----------------+
 
+```
+
+## 注意
+
+使用 `composer` 命令需要将 `composer` 的 `bin` 目录给 `export` 出来
+
+```console
+export PATH="$HOME/.composer/vendor/bin":$PATH
 ```
 
