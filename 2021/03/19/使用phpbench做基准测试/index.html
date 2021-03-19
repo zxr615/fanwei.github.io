@@ -268,12 +268,12 @@
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-03-19 12:19:07'>2021-03-19 11:31</time>
+            发布时间 : <time class="date" title='最后更新: 2021-03-19 12:23:08'>2021-03-19 11:31</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:244</span>
+        <span>字数:272</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -292,7 +292,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%9C%B0%E5%9D%80"><span class="toc-text">项目地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E5%9C%B0%E5%9D%80"><span class="toc-text">文档地址</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85phpbench"><span class="toc-text">安装phpbench</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAphpbench-json-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">创建phpbench.json 配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9composer-json"><span class="toc-text">修改composer.json</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0-autoloader"><span class="toc-text">更新 autoloader</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99Bench%E4%BB%A3%E7%A0%81"><span class="toc-text">编写Bench代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%B5%8B%E8%AF%95"><span class="toc-text">执行测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C"><span class="toc-text">结果</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%9C%B0%E5%9D%80"><span class="toc-text">项目地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E5%9C%B0%E5%9D%80"><span class="toc-text">文档地址</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85phpbench"><span class="toc-text">安装phpbench</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAphpbench-json-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">创建phpbench.json 配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9composer-json"><span class="toc-text">修改composer.json</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0-autoloader"><span class="toc-text">更新 autoloader</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99Bench%E4%BB%A3%E7%A0%81"><span class="toc-text">编写Bench代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%B5%8B%E8%AF%95"><span class="toc-text">执行测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C"><span class="toc-text">结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-text">注意</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -335,7 +335,8 @@
     &#125;
 &#125;
 </code></pre>
-<h3 id="执行测试"><a href="#执行测试" class="headerlink" title="执行测试"></a>执行测试</h3><p><code>phpbench run tests/Benchmark/Test.php --report=default</code></p>
+<h3 id="执行测试"><a href="#执行测试" class="headerlink" title="执行测试"></a>执行测试</h3><pre><code>phpbench run tests/Benchmark/Test.php --report=default
+</code></pre>
 <h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><pre><code class="console">➜  pay phpbench run tests/Benchmark/Test.php --report=default
 PhpBench @git_tag@. Running benchmarks.
 Using configuration file: /Users/tuju/Project/pay/phpbench.json
@@ -353,6 +354,9 @@ suite: 134628febd27af811e3ceaa765bccf4c891bc2f4, date: 2021-03-19, stime: 04:11:
 +-----------+--------------+-----+------+------+------------+-----------+--------------+----------------+
 | Test      | benchConsume | 0   | 1    | 0    | 4,270,848b | 481.000μs | 0.00σ        | 0.00%          |
 +-----------+--------------+-----+------+------+------------+-----------+--------------+----------------+
+</code></pre>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>使用 <code>composer</code> 命令需要将 <code>composer</code> 的 <code>bin</code> 目录给 <code>export</code> 出来</p>
+<pre><code class="console">export PATH=&quot;$HOME/.composer/vendor/bin&quot;:$PATH
 </code></pre>
 
       
