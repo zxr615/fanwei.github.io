@@ -8,21 +8,19 @@ date: 2021-03-19 11:31:28
 ---
 
 ## 项目地址
-```url
-https://github.com/thephpleague/omnipay
-```
+[https://github.com/thephpleague/omnipay](https://github.com/thephpleague/omnipay)
 
 ## 文档地址
 
 [https://phpbench.readthedocs.io/en/latest/quick-start.html](https://phpbench.readthedocs.io/en/latest/quick-start.html)
 
-### 安装phpbench
+## 安装phpbench
 
 ````console
 composer global require phpbench/phpbench --dev -vvv
 ````
 
-### 创建phpbench.json 配置文件
+## 创建phpbench.json 配置文件
 
 在项目的根目录中创建一个文件：`phpbench.json`
 
@@ -34,7 +32,7 @@ composer global require phpbench/phpbench --dev -vvv
 }
 ```
 
-### 修改composer.json
+## 修改composer.json
 
 ```json
 "autoload-dev": {
@@ -44,9 +42,11 @@ composer global require phpbench/phpbench --dev -vvv
 },
 ```
 
-### 更新 autoloader
+## 更新 autoloader
 
-`composer du`
+``` console
+composer du
+```
 
 ## 编写Bench代码
 
@@ -62,7 +62,7 @@ class Test
 }
 ```
 
-### 执行测试
+## 执行测试
 
 ```
 phpbench run tests/Benchmark/Test.php --report=default
