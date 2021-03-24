@@ -109,8 +109,8 @@ deploy:
   - type: 'git'
     repo: 'git@github.com:zxr615/zxr615.github.io.git'
     branch: ['docs']
-  - type: 'git'
-    repo: 'git@gitee.com:fanwei615/fanwei615.git'
-    branch: ['docs']
+#  - type: 'git'
+#    repo: 'git@gitee.com:fanwei615/fanwei615.git'
+#    branch: ['docs']
 
 
