@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>wsl2 ip配置</title>
+      <link href="2021/03/24/wsl2%20ip%E9%85%8D%E7%BD%AE/"/>
+      <url>2021/03/24/wsl2%20ip%E9%85%8D%E7%BD%AE/</url>
+      
+        <content type="html"><![CDATA[<h2 id="自动获取wsl2ip"><a href="#自动获取wsl2ip" class="headerlink" title="自动获取wsl2ip"></a>自动获取wsl2ip</h2><blockquote><p>每次重启获取内部ip 并且会写入到 windows 的 hosts 中</p></blockquote><p><a href="https://link.zhihu.com/?target=https://github.com/shayne/go-wsl2-host/">https://link.zhihu.com/?target=https%3A//github.com/shayne/go-wsl2-host/</a></p><p>安装脚本</p><pre><code>.\wsl2host.exe install</code></pre><p>输入电脑登录的帐号密码</p><pre><code class="shell">Windows Username: 用户名Windows Password: 密码</code></pre><p>启动</p><pre><code class="shell">.\wsl2host.exe start </code></pre><p>失败的话检查服务</p><p><code>win + R</code> 输入 <code>services</code> </p><img src="https://raw.githubusercontent.com/zxr615/md-images/master/images20210324215158.png" alt="image-20210324215157987" style="zoom:50%;" /><p>双击可编辑密码，我这里必须要在这里设置一下密码，命令行设置的密码无效</p><img src="https://raw.githubusercontent.com/zxr615/md-images/master/images20210324215358.png" alt="image-20210324215358692" style="zoom:50%;" /><h2 id="windows端口转发"><a href="#windows端口转发" class="headerlink" title="windows端口转发"></a>windows端口转发</h2><p>增减端口转发</p><blockquote><p>listenport 为 windows 需要监听的端口，connectport 是 WSL2 你的服务端口，如果不用转发了可以执行删除命令</p></blockquote><pre><code class="console">netsh interface portproxy add v4tov4 listenport=8080 connectaddress=ubuntu.wsl connectport=8080 listenaddress=* protocol=tcp</code></pre><p>删除端口转发</p><pre><code class="console">netsh interface portproxy delete v4tov4 listenport=8080 protocol=tcp</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> wsl2 </tag>
+            
+            <tag> Ubuntu </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>使用phpbench做基准测试</title>
       <link href="2021/03/19/%E4%BD%BF%E7%94%A8phpbench%E5%81%9A%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95/"/>
       <url>2021/03/19/%E4%BD%BF%E7%94%A8phpbench%E5%81%9A%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95/</url>
@@ -31,6 +60,33 @@
     
     
     <entry>
+      <title>ubuntu安装node</title>
+      <link href="2021/03/18/ubuntu/"/>
+      <url>2021/03/18/ubuntu/</url>
+      
+        <content type="html"><![CDATA[<p>ubuntu 安装node</p><p><a href="https://github.com/nodesource/distributions">https://github.com/nodesource/distributions</a></p><pre><code># Using Ubuntucurl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -sudo apt-get install -y nodejs</code></pre><p>将子模块 也 <code>clone</code> 下来</p><pre><code class="console">git clone --recurse-submodules https://github.com/zxr615/zxr615.github.io.git</code></pre><p>clone 子模块 </p><pre><code class="console">git submodule update --init --recursive</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> node </tag>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>使用策略模式和简单工厂模式重写支付模块</title>
       <link href="2021/03/18/%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E9%87%8D%E5%86%99%E6%94%AF%E4%BB%98%E6%A8%A1%E5%9D%97/"/>
       <url>2021/03/18/%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E9%87%8D%E5%86%99%E6%94%AF%E4%BB%98%E6%A8%A1%E5%9D%97/</url>
@@ -50,6 +106,56 @@
             <tag> Laravel </tag>
             
             <tag> Alipay </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ssh使用记录</title>
+      <link href="2021/01/01/ssh%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/"/>
+      <url>2021/01/01/ssh%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</url>
+      
+        <content type="html"><![CDATA[<h2 id="生成-ssh-key"><a href="#生成-ssh-key" class="headerlink" title="生成 ssh-key"></a>生成 ssh-key</h2><pre><code class="console">ssh-keygen -t rsa -C &quot;12345@qq.com&quot;</code></pre><h2 id="免密远程-SSH-登录"><a href="#免密远程-SSH-登录" class="headerlink" title="免密远程 SSH 登录"></a>免密远程 SSH 登录</h2><ol><li><p>将本地 <code>id_rsa.pub</code> 添加到本地的 <code>authorized_keys</code> 中</p></li><li><p>将本地 <code>id_rsa.pub</code> 添加到服务端 <code>authorized_keys</code> 中</p></li><li><p>服务端配置允许公钥方式登录</p><pre><code class="shell">  vim /etc/ssh/sshd_config  # 公钥登录  PubkeyAuthentication yes  # 公钥文件  AuthorizedKeysFile .ssh/authorized_keys  # 密码登录  PasswordAuthentication yes</code></pre></li><li><p>重启 ssh</p><pre><code class="console">sudo service ssh restart</code></pre></li><li><p>配置</p><pre><code class="console">cat ~/.ssh/id_rsa.pub</code></pre><pre><code class="shell"># 客户端中的「id_rsa.pub」内容追加进服务端的 「authorized_keys」中sudo vim ~/.ssh/authorized_keys# 免密登录SSH fanwei@192.168.0.1</code></pre></li></ol><h2 id="区分多个服务器"><a href="#区分多个服务器" class="headerlink" title="区分多个服务器"></a>区分多个服务器</h2><p>客户端：</p><pre><code>vim ~/.ssh/configHost ubuntu    HostName fanwei.cn    Port 22    User fanwei    IdentityFile ~/.ssh/id_rsa    Host ubuntu2    HostName fanwei2.cn    Port 22    User fanwei    IdentityFile ~/.ssh/id_rsa</code></pre><p>免密登录：<code>SSH ubuntu</code></p><h2 id="PhpStorm-Terminal-中配置快捷登录-ssh"><a href="#PhpStorm-Terminal-中配置快捷登录-ssh" class="headerlink" title="PhpStorm Terminal 中配置快捷登录 ssh"></a>PhpStorm Terminal 中配置快捷登录 ssh</h2><p><code>Settings -&gt; Tools -&gt; Terminal</code></p><p><img src="https://cdn.jsdelivr.net/gh/zxr615/md-images/images/2020/image-20200830204459428.png"></p><h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p><a href="https://www.howtoing.com/how-to-set-up-ssh-keys-on-ubuntu-1804">https://www.howtoing.com/how-to-set-up-ssh-keys-on-ubuntu-1804</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SSH </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>samba使用记录</title>
+      <link href="2020/11/11/samba%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/"/>
+      <url>2020/11/11/samba%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</url>
+      
+        <content type="html"><![CDATA[<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="http://cn.linux.vbird.org/linux_server/0370samba_2.php">鸟哥的私房菜-第十六章、文件服务器之二： SAMBA 服务器</a></p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code># sambasudo apt install samba# samba-clientsudo apt install smbclient</code></pre><h2 id="免密配置"><a href="#免密配置" class="headerlink" title="免密配置"></a>免密配置</h2><pre><code class="shell">[global]   workgroup = WORKGROUP   server string = %h server (Samba, Ubuntu)   dns proxy = no   log file = /var/log/samba/log.%m   max log size = 1000   panic action = /usr/share/samba/panic-action %d   server role = standalone server   passdb backend = tdbsam   obey pam restrictions = yes   unix password sync = yes   passwd program = /usr/bin/passwd %u   passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .   pam password change = yes   map to guest = bad user   usershare allow guests = yes   # 创建文件用户   force user = fanwei   # 创建文件组   force group = fanwei   create mask = 0777   directory mask = 0777[project]    comment = Project    path = /home/fanwei/project    writable = yes    browseable = yes    guest ok = yes</code></pre><p><code>sudo systemctl restart smbd.service</code></p><h2 id="测试语法"><a href="#测试语法" class="headerlink" title="测试语法"></a>测试语法</h2><p><code>testparm</code></p><h2 id="测试连接"><a href="#测试连接" class="headerlink" title="测试连接"></a>测试连接</h2><h3 id="smbclient"><a href="#smbclient" class="headerlink" title="smbclient"></a>smbclient</h3><pre><code class="shell">smbclient -L //127.0.0.1</code></pre><h3 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h3><p>在文件资源中输入<code>\\ip</code></p><h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><ul><li>如果访问不了、无法写入，检查文件夹权限</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Samba </tag>
             
         </tags>
       

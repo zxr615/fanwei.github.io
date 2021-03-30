@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>about | Hexo</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="about | Hexo">
+  <title>ubuntu安装node | Hexo</title>
+  <meta name="keywords" content=" node , Linux ">
+  <meta name="description" content="ubuntu安装node | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -309,24 +309,41 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+        <article id="post-ubuntu" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">about</h1>
+        <h1 class="article-title">ubuntu安装node</h1>
     
     <div class="article-meta">
         
         
         
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="运维">运维</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">node</a>
+            
+            <a class="color1">Linux</a>
+            
+        </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-03-16 12:14:33'>2021-03-15 21:25</time>
+            发布时间 : <time class="date" title='最后更新: 2021-03-26 11:25:53'>2021-03-18 23:33</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:0</span>
+        <span>字数:57</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -361,7 +378,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>ubuntu 安装node</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/nodesource/distributions">https://github.com/nodesource/distributions</a></p>
+<pre><code># Using Ubuntu
+curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt-get install -y nodejs
+</code></pre>
+<p>将子模块 也 <code>clone</code> 下来</p>
+<pre><code class="console">git clone --recurse-submodules https://github.com/zxr615/zxr615.github.io.git
+</code></pre>
+<p>clone 子模块 </p>
+<pre><code class="console">git submodule update --init --recursive
+</code></pre>
+
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 zxr615@foxmail.com </span>
     </div>

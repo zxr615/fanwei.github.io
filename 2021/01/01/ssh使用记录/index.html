@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>about | Hexo</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="about | Hexo">
+  <title>ssh使用记录 | Hexo</title>
+  <meta name="keywords" content=" SSH ">
+  <meta name="description" content="ssh使用记录 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -309,24 +309,39 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+        <article id="post-ssh使用记录" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">about</h1>
+        <h1 class="article-title">ssh使用记录</h1>
     
     <div class="article-meta">
         
         
         
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="运维">运维</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color4">SSH</a>
+            
+        </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-03-16 12:14:33'>2021-03-15 21:25</time>
+            发布时间 : <time class="date" title='最后更新: 2021-03-30 11:00:34'>2021-01-01 21:55</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:0</span>
+        <span>字数:197</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -345,7 +360,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90-ssh-key"><span class="toc-text">生成 ssh-key</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%8D%E5%AF%86%E8%BF%9C%E7%A8%8B-SSH-%E7%99%BB%E5%BD%95"><span class="toc-text">免密远程 SSH 登录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BA%E5%88%86%E5%A4%9A%E4%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">区分多个服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PhpStorm-Terminal-%E4%B8%AD%E9%85%8D%E7%BD%AE%E5%BF%AB%E6%8D%B7%E7%99%BB%E5%BD%95-ssh"><span class="toc-text">PhpStorm Terminal 中配置快捷登录 ssh</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ref"><span class="toc-text">ref</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -361,7 +376,59 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="生成-ssh-key"><a href="#生成-ssh-key" class="headerlink" title="生成 ssh-key"></a>生成 ssh-key</h2><pre><code class="console">ssh-keygen -t rsa -C &quot;12345@qq.com&quot;
+</code></pre>
+<h2 id="免密远程-SSH-登录"><a href="#免密远程-SSH-登录" class="headerlink" title="免密远程 SSH 登录"></a>免密远程 SSH 登录</h2><ol>
+<li><p>将本地 <code>id_rsa.pub</code> 添加到本地的 <code>authorized_keys</code> 中</p>
+</li>
+<li><p>将本地 <code>id_rsa.pub</code> 添加到服务端 <code>authorized_keys</code> 中</p>
+</li>
+<li><p>服务端配置允许公钥方式登录</p>
+<pre><code class="shell">  vim /etc/ssh/sshd_config
+
+  # 公钥登录
+  PubkeyAuthentication yes
+  # 公钥文件
+  AuthorizedKeysFile .ssh/authorized_keys
+  # 密码登录
+  PasswordAuthentication yes
+</code></pre>
+</li>
+<li><p>重启 ssh</p>
+<pre><code class="console">sudo service ssh restart
+</code></pre>
+</li>
+<li><p>配置</p>
+<pre><code class="console">cat ~/.ssh/id_rsa.pub
+</code></pre>
+<pre><code class="shell"># 客户端中的「id_rsa.pub」内容追加进服务端的 「authorized_keys」中
+sudo vim ~/.ssh/authorized_keys
+
+# 免密登录
+SSH fanwei@192.168.0.1
+</code></pre>
+</li>
+</ol>
+<h2 id="区分多个服务器"><a href="#区分多个服务器" class="headerlink" title="区分多个服务器"></a>区分多个服务器</h2><p>客户端：</p>
+<pre><code>vim ~/.ssh/config
+
+Host ubuntu
+    HostName fanwei.cn
+    Port 22
+    User fanwei
+    IdentityFile ~/.ssh/id_rsa
+    
+Host ubuntu2
+    HostName fanwei2.cn
+    Port 22
+    User fanwei
+    IdentityFile ~/.ssh/id_rsa
+</code></pre>
+<p>免密登录：<code>SSH ubuntu</code></p>
+<h2 id="PhpStorm-Terminal-中配置快捷登录-ssh"><a href="#PhpStorm-Terminal-中配置快捷登录-ssh" class="headerlink" title="PhpStorm Terminal 中配置快捷登录 ssh"></a>PhpStorm Terminal 中配置快捷登录 ssh</h2><p><code>Settings -&gt; Tools -&gt; Terminal</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zxr615/md-images/images/2020/image-20200830204459428.png"></p>
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p><a target="_blank" rel="noopener" href="https://www.howtoing.com/how-to-set-up-ssh-keys-on-ubuntu-1804">https://www.howtoing.com/how-to-set-up-ssh-keys-on-ubuntu-1804</a></p>
+
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 zxr615@foxmail.com </span>
     </div>
