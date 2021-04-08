@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>samba使用记录 | Hexo</title>
-  <meta name="keywords" content=" Samba ">
-  <meta name="description" content="samba使用记录 | Hexo">
+  <title>《图解http》阅读笔记 | Hexo</title>
+  <meta name="keywords" content=" Http ">
+  <meta name="description" content="《图解http》阅读笔记 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -367,9 +367,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-samba使用记录" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-《图解http》阅读笔记" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">samba使用记录</h1>
+        <h1 class="article-title">《图解http》阅读笔记</h1>
     
     <div class="article-meta">
         
@@ -379,7 +379,7 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="运维">运维</a>
+            <a  data-rel="阅读">阅读</a>
             
         </span>
         
@@ -387,19 +387,19 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color1">Samba</a>
+            <a class="color5">Http</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-03-30 10:47:25'>2020-11-11 23:57</time>
+            发布时间 : <time class="date" title='最后更新: 2021-04-08 16:03:42'>2021-04-08 16:03</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:208</span>
+        <span>字数:0</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -418,7 +418,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%96%99"><span class="toc-text">资料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%8D%E5%AF%86%E9%85%8D%E7%BD%AE"><span class="toc-text">免密配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E8%AF%AD%E6%B3%95"><span class="toc-text">测试语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E8%BF%9E%E6%8E%A5"><span class="toc-text">测试连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#smbclient"><span class="toc-text">smbclient</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#windows"><span class="toc-text">windows</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%87%E6%B3%A8"><span class="toc-text">备注</span></a></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -434,53 +434,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a target="_blank" rel="noopener" href="http://cn.linux.vbird.org/linux_server/0370samba_2.php">鸟哥的私房菜-第十六章、文件服务器之二： SAMBA 服务器</a></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code># samba
-sudo apt install samba
-
-# samba-client
-sudo apt install smbclient
-</code></pre>
-<h2 id="免密配置"><a href="#免密配置" class="headerlink" title="免密配置"></a>免密配置</h2><pre><code class="shell">[global]
-   workgroup = WORKGROUP
-   server string = %h server (Samba, Ubuntu)
-   dns proxy = no
-   log file = /var/log/samba/log.%m
-   max log size = 1000
-   panic action = /usr/share/samba/panic-action %d
-   server role = standalone server
-   passdb backend = tdbsam
-   obey pam restrictions = yes
-   unix password sync = yes
-   passwd program = /usr/bin/passwd %u
-   passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
-   pam password change = yes
-   map to guest = bad user
-   usershare allow guests = yes
-   # 创建文件用户
-   force user = fanwei
-   # 创建文件组
-   force group = fanwei
-   create mask = 0777
-   directory mask = 0777
-
-
-[project]
-    comment = Project
-    path = /home/fanwei/project
-    writable = yes
-    browseable = yes
-    guest ok = yes
-</code></pre>
-<p><code>sudo systemctl restart smbd.service</code></p>
-<h2 id="测试语法"><a href="#测试语法" class="headerlink" title="测试语法"></a>测试语法</h2><p><code>testparm</code></p>
-<h2 id="测试连接"><a href="#测试连接" class="headerlink" title="测试连接"></a>测试连接</h2><h3 id="smbclient"><a href="#smbclient" class="headerlink" title="smbclient"></a>smbclient</h3><pre><code class="shell">smbclient -L //127.0.0.1
-</code></pre>
-<h3 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h3><p>在文件资源中输入<code>\\ip</code></p>
-<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><ul>
-<li>如果访问不了、无法写入，检查文件夹权限</li>
-</ul>
-
+        
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 zxr615@foxmail.com </span>
     </div>
