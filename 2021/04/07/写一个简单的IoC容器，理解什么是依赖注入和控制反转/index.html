@@ -122,24 +122,10 @@
         
             
                 <li>
-                    <div data-rel="阅读">
-                        
-                        阅读
-                        <small>(1)</small>
-                        
-                    </div>
-                    
-                </li>
-            
-        
-    
-        
-            
-                <li>
                     <div data-rel="PHP">
                         
                         PHP
-                        <small>(4)</small>
+                        <small>(5)</small>
                         
                     </div>
                     
@@ -161,7 +147,7 @@
     </div>
 </div>
 <input type="hidden" id="yelog_site_posts_number" value="9">
-<input type="hidden" id="yelog_site_word_count" value="6.8k">
+<input type="hidden" id="yelog_site_word_count" value="7.6k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -207,6 +193,10 @@
     <div class="tag-wrapper">
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>设计模式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>Alipay</a>
             </li>
         
@@ -216,10 +206,6 @@
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>DI</a>
-            </li>
-        
-            <li class="article-tag-list-item">
-                <i class="iconfont icon-tag"></i><a>Http</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -277,12 +263,12 @@
     
     <nav id="title-list-nav">
         
-        <a  class="全部文章 阅读 "
-           href="/2021/04/08/%E3%80%8A%E5%9B%BE%E8%A7%A3http%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"
-           data-tag="Http"
+        <a  class="全部文章 PHP "
+           href="/2021/04/15/%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E9%87%8D%E5%86%99%E6%94%AF%E4%BB%98%E6%A8%A1%E5%9D%97(%E4%BA%8C)-%E4%BC%98%E5%8C%96$request/"
+           data-tag="Laravel,Alipay,设计模式"
            data-author="" >
-            <span class="post-title" title="《图解http》阅读笔记">《图解http》阅读笔记</span>
-            <span class="post-date" title="2021-04-08 16:03:35">2021/04/08</span>
+            <span class="post-title" title="使用策略模式和简单工厂模式重写支付模块(二)-优化$request">使用策略模式和简单工厂模式重写支付模块(二)-优化$request</span>
+            <span class="post-date" title="2021-04-15 18:50:17">2021/04/15</span>
         </a>
         
         <a  class="全部文章 PHP "
@@ -327,7 +313,7 @@
         
         <a  class="全部文章 PHP "
            href="/2021/03/18/%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E9%87%8D%E5%86%99%E6%94%AF%E4%BB%98%E6%A8%A1%E5%9D%97/"
-           data-tag="Laravel,Alipay"
+           data-tag="Laravel,Alipay,设计模式"
            data-author="" >
             <span class="post-title" title="使用策略模式和简单工厂模式重写支付模块">使用策略模式和简单工厂模式重写支付模块</span>
             <span class="post-date" title="2021-03-18 14:44:45">2021/03/18</span>
@@ -398,12 +384,12 @@
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-04-08 15:34:29'>2021-04-07 17:35</time>
+            发布时间 : <time class="date" title='最后更新: 2021-04-16 11:13:27'>2021-04-07 17:35</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:2k</span>
+        <span>字数:2.2k</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -450,13 +436,18 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>依赖注入(DI)，控制反转(IoC)，容器(Container) 经常都经常会提到，但很长一段时间都是一知半解，现在抽空把自己浅显理解的内容记录下来，与大家探讨。</p>
-<h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><pre><code class="php">Route::get(&#39;/&#123;id&#125;&#39;,&#39;\App\Http\Controllers\IndexController@index&#39;);
+<h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>不知道大家开发时有没有好奇过以下这两个问题呢？</p>
+<ol>
+<li>为什么方法的参数位置①是需要传入 <strong>2</strong> 个参数的，一个是 <code>Request</code> 类型的参数，一个是不定类型的 <code>$id</code> 参数，但路由只有一个 <code>$id</code> 参数，那 <code>$request</code> 参数是哪里来的？</li>
+<li><code>UserService</code> 的 <code>__construct</code> 方法明确实例化需要一个 <code>Cache</code> 类型的参数，但②中并没有传入，为什么能使用呢？③为什么使用 <code>new</code> 不传参数就会报错呢？</li>
+</ol>
+<pre><code class="php">Route::get(&#39;/&#123;id&#125;&#39;,&#39;\App\Http\Controllers\IndexController@index&#39;);
 </code></pre>
 <pre><code class="php">class IndexController extends Controller
 &#123;
     public function index(Request $request, $id)①
     &#123;
-                app(UserService::class)②-&gt;getUserNameById($id);
+        app(UserService::class)②-&gt;getUserNameById($id);
       
         ③// TypeError: Too few arguments to function App/Services/UserService::__construct(), 0 passed in Psy Shell code on line 1 and exactly 1 expected
         (new UserService())-&gt;getUserNameById($id);
@@ -478,6 +469,7 @@
     &#125;
 &#125;
 </code></pre>
+<p>原来这叫 <code>依赖注入</code> ，开始也不知道是个啥，那就抱着这两个疑问开始寻找答案。 </p>
 <p>很早之前就很好奇：</p>
 <ol>
 <li>为什么方法的参数位置①是需要传入 <strong>2</strong> 个参数的，一个是 <code>Request</code> 类型的参数，一个是不定类型的 <code>id</code> 参数，但路由只有一个 <code>id</code> 参数，那 <code>$request</code> 参数是哪里来的？</li>
