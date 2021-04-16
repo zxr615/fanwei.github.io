@@ -15,6 +15,9 @@ date: 2021-04-07 17:35:54
 
 
 ## 引子
+不知道大家开发时有没有好奇过以下这两个问题呢？
+1. 为什么方法的参数位置①是需要传入 **2** 个参数的，一个是 `Request` 类型的参数，一个是不定类型的 `$id` 参数，但路由只有一个 `$id` 参数，那 `$request` 参数是哪里来的？
+2. `UserService` 的 `__construct` 方法明确实例化需要一个 `Cache` 类型的参数，但②中并没有传入，为什么能使用呢？③为什么使用 `new` 不传参数就会报错呢？
 
 ```php
 Route::get('/{id}','\App\Http\Controllers\IndexController@index');
@@ -25,7 +28,7 @@ class IndexController extends Controller
 {
     public function index(Request $request, $id)①
     {
-				app(UserService::class)②->getUserNameById($id);
+		app(UserService::class)②->getUserNameById($id);
       
         ③// TypeError: Too few arguments to function App/Services/UserService::__construct(), 0 passed in Psy Shell code on line 1 and exactly 1 expected
         (new UserService())->getUserNameById($id);
@@ -49,6 +52,13 @@ class UserService
     }
 }
 ```
+
+
+
+原来这叫 `依赖注入` ，开始也不知道是个啥，那就抱着这两个疑问开始寻找答案。 
+
+
+
 
 很早之前就很好奇：
 
