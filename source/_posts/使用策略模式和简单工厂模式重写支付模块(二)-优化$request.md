@@ -1,4 +1,14 @@
-# 使用策略模式和简单工厂模式重写支付模块(二)-优化$request
+---
+title: 使用策略模式和简单工厂模式重写支付模块(二)-优化$request
+categories: PHP
+tags:
+  - Laravel
+  - Alipay
+  - 设计模式
+date: 2021-04-15 18:50:17
+---
+
+
 
 ## 前情提要
 
