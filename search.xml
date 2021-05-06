@@ -4,6 +4,58 @@
   
     
     <entry>
+      <title>更换 brew 源</title>
+      <link href="2021/05/06/%E6%9B%B4%E6%8D%A2-brew-%E6%BA%90/"/>
+      <url>2021/05/06/%E6%9B%B4%E6%8D%A2-brew-%E6%BA%90/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>中科大镜像</p></blockquote><p>替换 Homebrew</p><pre><code class="console">git -C &quot;$(brew --repo)&quot; remote set-url origin https://mirrors.ustc.edu.cn/brew.git</code></pre><p>替换 Homebrew Core</p><pre><code class="console">git -C &quot;$(brew --repo homebrew/core)&quot; remote set-url origin https://mirrors.ustc.edu.cn/homebrew-core.git</code></pre><p>替换 Homebrew Cask</p><pre><code class="console">git -C &quot;$(brew --repo homebrew/cask)&quot; remote set-url origin https://mirrors.ustc.edu.cn/homebrew-cask.git</code></pre><p>zsh</p><pre><code class="bash">echo &#39;export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles&#39; &gt;&gt; ~/.zshrc</code></pre><pre><code class="shell">source ~/.zshrc</code></pre><p>更新brew</p><pre><code class="console">brew update</code></pre><blockquote><p>error: Not a valid ref: refs/remotes/origin/master</p></blockquote><p>如遇到 error 替换为</p><pre><code class="console">brew update --verbose</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> mac </tag>
+            
+            <tag> brew </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>常用软件</title>
+      <link href="2021/04/23/%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/"/>
+      <url>2021/04/23/%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/</url>
+      
+        <content type="html"><![CDATA[<h2 id="httptoolkit"><a href="#httptoolkit" class="headerlink" title="httptoolkit"></a>httptoolkit</h2><p><a href="https://httptoolkit.tech/">https://httptoolkit.tech/</a></p><p>一个桌面程序，用来拦截和调试各种应用的 HTTP 通信，包括浏览器、安卓应用、命令行应用、Electron 应用等等。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> software </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>使用策略模式和简单工厂模式重写支付模块(二)-优化$request</title>
       <link href="2021/04/15/%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E9%87%8D%E5%86%99%E6%94%AF%E4%BB%98%E6%A8%A1%E5%9D%97(%E4%BA%8C)-%E4%BC%98%E5%8C%96$request/"/>
       <url>2021/04/15/%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E9%87%8D%E5%86%99%E6%94%AF%E4%BB%98%E6%A8%A1%E5%9D%97(%E4%BA%8C)-%E4%BC%98%E5%8C%96$request/</url>
