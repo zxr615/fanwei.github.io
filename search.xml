@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>使用Goland文件模板生成文件</title>
+      <link href="2021/05/13/%E4%BD%BF%E7%94%A8Goland%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF%E7%94%9F%E6%88%90%E6%96%87%E4%BB%B6/"/>
+      <url>2021/05/13/%E4%BD%BF%E7%94%A8Goland%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF%E7%94%9F%E6%88%90%E6%96%87%E4%BB%B6/</url>
+      
+        <content type="html"><![CDATA[<p>打开 Goland 设置找到 <code>File and Code Templates</code> 新建模板</p><p>velocity 语法：<a href="http://velocity.apache.org/engine/devel/user-guide.html#string-concatenation">http://velocity.apache.org/engine/devel/user-guide.html#string-concatenation</a></p><pre><code class="template">package $&#123;GO_PACKAGE_NAME&#125;#set($HUMP_NAME = $&#123;StringUtils.removeAndHump($&#123;NAME&#125;, &quot;_&quot;)&#125;)type $&#123;HUMP_NAME&#125; struct &#123;&#125;func ($&#123;HUMP_NAME&#125;) TableName() string &#123;    return &quot;$&#123;NAME&#125;&quot;&#125;</code></pre><h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://www.coder.work/article/6393553">https://www.coder.work/article/6393553</a></p><p><a href="https://www.codota.com/code/java/methods/org.apache.velocity.util.StringUtils/removeAndHump">https://www.codota.com/code/java/methods/org.apache.velocity.util.StringUtils/removeAndHump</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Goland </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Golang </tag>
+            
+            <tag> Goland </tag>
+            
+            <tag> Template </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>更换 brew 源</title>
       <link href="2021/05/06/%E6%9B%B4%E6%8D%A2-brew-%E6%BA%90/"/>
       <url>2021/05/06/%E6%9B%B4%E6%8D%A2-brew-%E6%BA%90/</url>
