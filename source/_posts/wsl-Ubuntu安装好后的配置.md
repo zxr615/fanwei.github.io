@@ -220,6 +220,15 @@ ifconfig
 ```
 
 
+
+## 安装gcc
+
+```shell
+sudo apt install gcc
+```
+
+
+
 ## 安装 git
 
 ### 安装
@@ -245,6 +254,7 @@ git config --global user.email "zxr615@foxmail.com"
 ```shell
 git config --global core.quotepath false
 ```
+
 
 
 ### 安装 zsh
@@ -297,19 +307,53 @@ plugins=(
 
 
 
-## php&php-fpm
+## php&php-fpm&composer
 
 ### php
 
-```
+```shell
 sudo apt install php
 ```
 
-### php-fpm
+ext-curl
+
+```shell
+sudo apt install ext-curl
+```
+
+ext-dom
 
 ```
+sudo apt install php7.4-xml
+```
+
+> 指定php版本，不指定版本使用默认版本
+
+### php-fpm
+
+```shell
 sudo apt install php-fpm
 ```
+
+###  composer
+
+```shell
+sudo apt install composer
+```
+
+更改源
+
+```sehll
+composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
+```
+
+多线程
+
+```shell
+composer global require hirak/prestissimo -vvv
+```
+
+
 
 ### 启动
 
@@ -468,6 +512,12 @@ SELECT * FROM `user` WHERE User="fanwei"\G
 sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
 ```
 
+监听所有 ip
+
+```
+bind-address            = 0.0.0.0
+mysqlx-bind-address     = 0.0.0.0
+```
 
 
 
