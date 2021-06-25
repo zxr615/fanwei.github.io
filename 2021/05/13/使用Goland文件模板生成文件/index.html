@@ -100,7 +100,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(12)</small>
+                <small>(13)</small>
             
         </div>
     </li>
@@ -111,7 +111,7 @@
                     <div data-rel="运维">
                         
                         运维
-                        <small>(6)</small>
+                        <small>(7)</small>
                         
                     </div>
                     
@@ -160,8 +160,8 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="12">
-<input type="hidden" id="yelog_site_word_count" value="7.8k">
+<input type="hidden" id="yelog_site_posts_number" value="13">
+<input type="hidden" id="yelog_site_word_count" value="8.9k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -301,6 +301,14 @@
     
     <nav id="title-list-nav">
         
+        <a  class="全部文章 运维 "
+           href="/2021/05/24/wsl-Ubuntu%E5%AE%89%E8%A3%85%E5%A5%BD%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/"
+           data-tag="wsl2,Linux,Ubuntu"
+           data-author="" >
+            <span class="post-title" title="wsl-Ubuntu安装好后的配置">wsl-Ubuntu安装好后的配置</span>
+            <span class="post-date" title="2021-05-24 23:20:45">2021/05/24</span>
+        </a>
+        
         <a  class="全部文章 Goland "
            href="/2021/05/13/%E4%BD%BF%E7%94%A8Goland%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF%E7%94%9F%E6%88%90%E6%96%87%E4%BB%B6/"
            data-tag="Golang,Goland,Template"
@@ -351,7 +359,7 @@
         
         <a  class="全部文章 运维 "
            href="/2021/03/24/wsl2%20ip%E9%85%8D%E7%BD%AE/"
-           data-tag="Linux,wsl2,Ubuntu"
+           data-tag="wsl2,Linux,Ubuntu"
            data-author="" >
             <span class="post-title" title="wsl2 ip配置">wsl2 ip配置</span>
             <span class="post-date" title="2021-03-24 22:06:43">2021/03/24</span>
@@ -367,7 +375,7 @@
         
         <a  class="全部文章 运维 "
            href="/2021/03/18/ubuntu/"
-           data-tag="node,Linux"
+           data-tag="Linux,node"
            data-author="" >
             <span class="post-title" title="ubuntu安装node">ubuntu安装node</span>
             <span class="post-date" title="2021-03-18 23:33:29">2021/03/18</span>
@@ -446,12 +454,12 @@
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-05-13 19:36:30'>2021-05-13 19:29</time>
+            发布时间 : <time class="date" title='最后更新: 2021-06-25 17:55:10'>2021-05-13 19:29</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:85</span>
+        <span>字数:110</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -501,7 +509,12 @@
 <p>velocity 语法：<a target="_blank" rel="noopener" href="http://velocity.apache.org/engine/devel/user-guide.html#string-concatenation">http://velocity.apache.org/engine/devel/user-guide.html#string-concatenation</a></p>
 <pre><code class="template">package $&#123;GO_PACKAGE_NAME&#125;
 
-#set($HUMP_NAME = $&#123;StringUtils.removeAndHump($&#123;NAME&#125;, &quot;_&quot;)&#125;)
+#set($HUMP_NAME = $&#123;StringUtils.removeAndHump($&#123;NAME&#125;, &quot;_&quot;)&#125;) 
+#set($MODEL_NAME = $HUMP_NAME.replace(&quot;Dao&quot;, &quot;&quot;))
+// ab_cd_dao
+// $HUMP_NAME = AbCdDao
+// $MODEL_NAME = AbCd
+
 type $&#123;HUMP_NAME&#125; struct &#123;
 &#125;
 
@@ -509,7 +522,8 @@ func ($&#123;HUMP_NAME&#125;) TableName() string &#123;
     return &quot;$&#123;NAME&#125;&quot;
 &#125;
 </code></pre>
-<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a target="_blank" rel="noopener" href="https://www.coder.work/article/6393553">https://www.coder.work/article/6393553</a></p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/33611802/lowercase-first-letter-in-apache-velocity">https://stackoverflow.com/questions/33611802/lowercase-first-letter-in-apache-velocity</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.coder.work/article/6393553">https://www.coder.work/article/6393553</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.codota.com/code/java/methods/org.apache.velocity.util.StringUtils/removeAndHump">https://www.codota.com/code/java/methods/org.apache.velocity.util.StringUtils/removeAndHump</a></p>
 
       
