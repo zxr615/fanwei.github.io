@@ -17,7 +17,12 @@ velocity 语法：http://velocity.apache.org/engine/devel/user-guide.html#string
 ```template
 package ${GO_PACKAGE_NAME}
 
-#set($HUMP_NAME = ${StringUtils.removeAndHump(${NAME}, "_")})
+#set($HUMP_NAME = ${StringUtils.removeAndHump(${NAME}, "_")}) 
+#set($MODEL_NAME = $HUMP_NAME.replace("Dao", ""))
+// ab_cd_dao
+// $HUMP_NAME = AbCdDao
+// $MODEL_NAME = AbCd
+
 type ${HUMP_NAME} struct {
 }
 
@@ -27,6 +32,8 @@ func (${HUMP_NAME}) TableName() string {
 ```
 
 ## Ref
+
+https://stackoverflow.com/questions/33611802/lowercase-first-letter-in-apache-velocity
 
 https://www.coder.work/article/6393553
 
