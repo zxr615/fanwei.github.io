@@ -491,7 +491,7 @@ create user fanwei identified by '123456';
 
 ```
 # 分配 所有权限 所有数据库.所有表 给 fanwei用户
-GRANT ALL ON *.* TO fanwei；
+GRANT ALL ON *.* TO fanwei;
 ```
 
 ### 刷新用户权限
@@ -519,7 +519,108 @@ bind-address            = 0.0.0.0
 mysqlx-bind-address     = 0.0.0.0
 ```
 
+### 问题
 
+#### 查询配置信息
 
+```shell
+mysqld --verbose --help | more
+```
 
+```
+...
+Default options are read from the following files in the given order:
+默认选项按照给定的顺序从以下文件中读取
+/etc/my.cnf /etc/mysql/my.cnf /opt/homebrew/etc/my.cnf ~/.my.cnf
+The following groups are read: mysqld server mysqld-8.0
+The following options may be given as the first argument:
+...
+```
 
+### 免密登录
+
+常常会遇到密码忘记，或者刚设置好然后登录不上的情况，这个时候就需要免密进入后再进行配置
+
+```shell
+vim ~/.my.cnf
+```
+
+加入配置，重启
+
+```she
+[mysqld]
+skip-grant-tables
+```
+
+重新进入
+
+```shell
+mysql -u root -p
+```
+
+### 查看安全变量值
+
+```shell
+SHOW VARIABLES LIKE 'validate_password%';
+```
+
+```console
+mysql> SHOW VARIABLES LIKE 'validate_password%';
++--------------------------------------+--------+
+| Variable_name                        | Value  |
++--------------------------------------+--------+
+| validate_password.check_user_name    | ON     |
+| validate_password.dictionary_file    |        |
+| validate_password.length             | 8      |
+| validate_password.mixed_case_count   | 1      |
+| validate_password.number_count       | 1      |
+| validate_password.policy             | MEDIUM |
+| validate_password.special_char_count | 1      |
++--------------------------------------+--------+
+```
+
+### 密码强度
+
+```
+SET GLOBAL validate_password.policy=LOW;    # 低
+SET GLOBAL validate_password.policy=MEDIUM; # 中
+SET GLOBAL validate_password.policy=STRONG; # 高
+```
+
+### 修改密码
+
+1. 将旧密码指控
+
+   ```shell
+   use mysql
+   ```
+
+   ```shell
+   update user set authentication_string = '' where user = 'root';
+   ```
+
+   ```shell
+   quit
+   ```
+
+2. 去除免密码登陆配置
+
+   ```
+   skip-grant-tables
+   ```
+
+3. 重启
+
+4. 重新登录数据库
+
+   ```shell
+   mysql -u root -p
+   ```
+
+5. 重置
+
+   ```shell
+   ALTER USER 'root'@'localhost' IDENTIFIED BY 'fw123456';
+   ```
+
+   
