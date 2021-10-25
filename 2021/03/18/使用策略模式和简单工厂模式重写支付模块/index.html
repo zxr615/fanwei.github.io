@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>使用策略模式和简单工厂模式重写支付模块 | Hexo</title>
+  <meta name="keywords" content=" Laravel , Alipay , 设计模式 ">
+  <meta name="description" content="使用策略模式和简单工厂模式重写支付模块 | Hexo">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="http://example.com/about/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-15T13:25:11.000Z">
+<meta property="article:modified_time" content="2021-08-08T07:07:19.356Z">
+<meta property="article:author" content="Fan Wei">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>Fan Wei</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:zxr615@foxmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(16)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="读书">
+                        
+                        读书
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="运维">
+                        
+                        运维
+                        <small>(8)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Goland">
+                        
+                        Goland
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="PHP">
+                        
+                        PHP
+                        <small>(5)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="16">
+<input type="hidden" id="yelog_site_word_count" value="12.6k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>股票</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>基金</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>设计模式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>投资</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Alipay</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Benchmark</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>brew</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>DI</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Goland</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Golang</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>IoC</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Laravel</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>mac</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>node</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>php</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>PHP</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Samba</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>software</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SSH</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Template</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Test</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Ubuntu</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>wsl2</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>xdebug</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <div id="local-search-result">
+
+    </div>
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 "
+           href="/2021/09/13/escase/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2021-09-13 21:45:53">2021/09/13</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/08/25/brew-%E5%AE%89%E8%A3%85-php/"
+           data-tag="brew,PHP"
+           data-author="" >
+            <span class="post-title" title="brew 安装 php">brew 安装 php</span>
+            <span class="post-date" title="2021-08-25 11:45:07">2021/08/25</span>
+        </a>
+        
+        <a  class="全部文章 读书 "
+           href="/2021/08/09/%E6%8C%87%E6%95%B0%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84%E6%8C%87%E5%8D%97/"
+           data-tag="基金,投资,股票"
+           data-author="" >
+            <span class="post-title" title="《指数基金投资指南》">《指数基金投资指南》</span>
+            <span class="post-date" title="2021-08-09 21:20:46">2021/08/09</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/05/24/wsl-Ubuntu%E5%AE%89%E8%A3%85%E5%A5%BD%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/"
+           data-tag="Linux,wsl2,Ubuntu"
+           data-author="" >
+            <span class="post-title" title="wsl-Ubuntu安装好后的配置">wsl-Ubuntu安装好后的配置</span>
+            <span class="post-date" title="2021-05-24 23:20:45">2021/05/24</span>
+        </a>
+        
+        <a  class="全部文章 Goland "
+           href="/2021/05/13/%E4%BD%BF%E7%94%A8Goland%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF%E7%94%9F%E6%88%90%E6%96%87%E4%BB%B6/"
+           data-tag="Golang,Goland,Template"
+           data-author="" >
+            <span class="post-title" title="使用Goland文件模板生成文件">使用Goland文件模板生成文件</span>
+            <span class="post-date" title="2021-05-13 19:29:52">2021/05/13</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/05/06/%E6%9B%B4%E6%8D%A2-brew-%E6%BA%90/"
+           data-tag="mac,brew"
+           data-author="" >
+            <span class="post-title" title="更换 brew 源">更换 brew 源</span>
+            <span class="post-date" title="2021-05-06 10:34:35">2021/05/06</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/04/23/%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/"
+           data-tag="software"
+           data-author="" >
+            <span class="post-title" title="常用软件">常用软件</span>
+            <span class="post-date" title="2021-04-23 09:53:50">2021/04/23</span>
+        </a>
+        
+        <a  class="全部文章 PHP "
+           href="/2021/04/15/%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E9%87%8D%E5%86%99%E6%94%AF%E4%BB%98%E6%A8%A1%E5%9D%97(%E4%BA%8C)-%E4%BC%98%E5%8C%96$request/"
+           data-tag="Laravel,Alipay,设计模式"
+           data-author="" >
+            <span class="post-title" title="使用策略模式和简单工厂模式重写支付模块(二)-优化$request">使用策略模式和简单工厂模式重写支付模块(二)-优化$request</span>
+            <span class="post-date" title="2021-04-15 18:50:17">2021/04/15</span>
+        </a>
+        
+        <a  class="全部文章 PHP "
+           href="/2021/04/07/%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84IoC%E5%AE%B9%E5%99%A8%EF%BC%8C%E7%90%86%E8%A7%A3%E4%BB%80%E4%B9%88%E6%98%AF%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E5%92%8C%E6%8E%A7%E5%88%B6%E5%8F%8D%E8%BD%AC/"
+           data-tag="Laravel,IoC,DI"
+           data-author="" >
+            <span class="post-title" title="写一个简单的IoC容器案例，理解什么是依赖注入和控制反转">写一个简单的IoC容器案例，理解什么是依赖注入和控制反转</span>
+            <span class="post-date" title="2021-04-07 17:35:54">2021/04/07</span>
+        </a>
+        
+        <a  class="全部文章 PHP "
+           href="/2021/04/06/xdebug&phpstorm%E8%B0%83%E8%AF%95/"
+           data-tag="xdebug,php"
+           data-author="" >
+            <span class="post-title" title="xdebug &amp; phpstorm 调试">xdebug &amp; phpstorm 调试</span>
+            <span class="post-date" title="2021-04-06 11:16:54">2021/04/06</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/03/24/wsl2%20ip%E9%85%8D%E7%BD%AE/"
+           data-tag="Linux,wsl2,Ubuntu"
+           data-author="" >
+            <span class="post-title" title="wsl2 ip配置">wsl2 ip配置</span>
+            <span class="post-date" title="2021-03-24 22:06:43">2021/03/24</span>
+        </a>
+        
+        <a  class="全部文章 PHP "
+           href="/2021/03/19/%E4%BD%BF%E7%94%A8phpbench%E5%81%9A%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95/"
+           data-tag="Test,Benchmark"
+           data-author="" >
+            <span class="post-title" title="使用phpbench做基准测试">使用phpbench做基准测试</span>
+            <span class="post-date" title="2021-03-19 11:31:28">2021/03/19</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/03/18/ubuntu/"
+           data-tag="node,Linux"
+           data-author="" >
+            <span class="post-title" title="ubuntu安装node">ubuntu安装node</span>
+            <span class="post-date" title="2021-03-18 23:33:29">2021/03/18</span>
+        </a>
+        
+        <a  class="全部文章 PHP "
+           href="/2021/03/18/%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E9%87%8D%E5%86%99%E6%94%AF%E4%BB%98%E6%A8%A1%E5%9D%97/"
+           data-tag="Laravel,Alipay,设计模式"
+           data-author="" >
+            <span class="post-title" title="使用策略模式和简单工厂模式重写支付模块">使用策略模式和简单工厂模式重写支付模块</span>
+            <span class="post-date" title="2021-03-18 14:44:45">2021/03/18</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/01/01/ssh%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/"
+           data-tag="SSH"
+           data-author="" >
+            <span class="post-title" title="ssh使用记录">ssh使用记录</span>
+            <span class="post-date" title="2021-01-01 21:55:06">2021/01/01</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2020/11/11/samba%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/"
+           data-tag="Samba"
+           data-author="" >
+            <span class="post-title" title="samba使用记录">samba使用记录</span>
+            <span class="post-date" title="2020-11-11 23:57:16">2020/11/11</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-使用策略模式和简单工厂模式重写支付模块" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">使用策略模式和简单工厂模式重写支付模块</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="PHP">PHP</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color3">Laravel</a>
+            
+            <a class="color2">Alipay</a>
+            
+            <a class="color5">设计模式</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2021-08-08 15:07:19'>2021-03-18 14:44</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>字数:3.8k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+        <span class="top-comment" title="跳转至评论区">
+            <a href="#comments">
+                评论:<span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </a>
+        </span>
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%89%80%E5%9C%A8"><span class="toc-text">问题所在</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B9%E9%80%A0%E5%89%8D%E7%9A%84%E4%B8%80%E6%AE%B5%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="toc-text">改造前的一段伪代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9D%80%E6%89%8B%E6%94%B9%E9%80%A0"><span class="toc-text">着手改造</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87"><span class="toc-text">前期准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E6%A8%A1%E5%9D%97%E5%8C%BA%E5%88%86%E4%B8%8D%E5%90%8C%E7%9A%84%E4%B8%8B%E5%8D%95%E9%93%BE%E6%8E%A5"><span class="toc-text">按模块区分不同的下单链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%B4%E6%97%B6%E8%AE%A2%E5%8D%95%E7%AD%96%E7%95%A5"><span class="toc-text">创建临时订单策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%BC%80%E9%80%9Avip%E6%8E%A5%E5%8F%A3"><span class="toc-text">实现开通vip接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E8%A7%88%E8%AE%A2%E5%8D%95"><span class="toc-text">预览订单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E8%B5%B7%E6%94%AF%E4%BB%98"><span class="toc-text">发起支付</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">解决的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E8%B6%B3%E4%B9%8B%E5%A4%84"><span class="toc-text">不足之处</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近接到一个涉及支付的需求，旧代码看的有点头大，所以捋了捋逻辑，看了下时间，还是足够的，所以就重写了一遍支付模块，抽空记录一下过程。</p>
+<h2 id="问题所在"><a href="#问题所在" class="headerlink" title="问题所在"></a>问题所在</h2><ul>
+<li>全部支付走统一的二维码生成接口，导致需要通过 type 区分接收不同的字段，随着支付方式越来越多，参数判断越来越多，难以维护</li>
+<li>代码解构混乱，一个 <code>$data</code> 变量贯通整个方法，导致最后不知道 <code>$data</code> 变量里面什么数据，开发、排错越来越复杂</li>
+<li>异常处理，业务代码处处抛出 <code>\Exception</code> 和捕获 <code>\Exception</code> ，导致如果程序遇到了系统异常也不能及时的通知错误</li>
+</ul>
+<h2 id="改造前的一段伪代码"><a href="#改造前的一段伪代码" class="headerlink" title="改造前的一段伪代码"></a>改造前的一段伪代码</h2><ol>
+<li>所有业务逻辑错误也抛出 <code>\Exception</code> 异常，捕获 <code>\Exception</code> 后返回 <code>下单失败</code> 导致如果程序遇到真正错误时，无法及时排查错误</li>
+<li>单看 <code>checkVerifyType()</code> 方法名会认为只是检查支付 <code>type</code> 是否正确， 但却不是，这个方法把所有该干不该干的事都干完了</li>
+<li>传参用 <code>0</code> ，<code>1</code> 也不能明确知道是代表什么东西</li>
+<li><code>qrcode</code> 接口参数也很复杂，例：<code>type</code> = 1时，必须要 <code>code</code> 参数； <code>type</code> = 2 时，必须要 <code>price</code> 参数；<code>type</code> = 3 时  ….</li>
+<li><code>$data</code> 里面各种数据，有：请求数据，订单临时数据，订单预览数据，根据购买商品的不同又放入不同的数据，结果 <code>$data</code> 就是个大杂烩，修改起来实在一言难尽</li>
+</ol>
+<pre><code class="php">// 所有购买入口获取二维码的入口
+public function qrcode(Request $request)
+&#123;
+    try &#123;
+          // ...
+        $key = $this-&gt;checkVerifyType(0, 1);
+          // ...
+        return $key;
+    &#125; catch (\Exception $e) &#123;
+        return &#39;下单失败&#39;;
+    &#125;
+&#125;
+</code></pre>
+<p>*/Service/PayService.php</p>
+<pre><code class="php">public function checkVerifyType($payType1 = 0, $payType2 = 0)
+&#123;
+    $data = request()-&gt;all();
+
+    if (!ctype_digit(strval($data[&#39;type&#39;]))) &#123;
+        throw new \Exception(&#39;type err&#39;);
+    &#125;
+  
+      // ..... 还有一堆的参数验证
+
+    switch ($data[&#39;type&#39;]) &#123;
+        case &#39;vip&#39;:
+            // ... 验证
+            $data[&#39;vip_info&#39;] = Vip::where(&#39;code&#39;, $data[&#39;code&#39;])-&gt;first();
+            break;
+        case &#39;recharge&#39;:
+            // ... 验证
+            $data[&#39;money&#39;] = $data[&#39;money&#39;];
+            break;
+        // case...
+    &#125;
+
+    // 优惠券判断
+    if ($data[&#39;coupon_id&#39;]) &#123;
+        $money = Coupon::where(&#39;id&#39;, $data[&#39;coupon_id&#39;])-&gt;value(&quot;money&quot;);
+        $data[&#39;reduce&#39;] = $money;
+        // ....
+    &#125;
+
+    // 订单预览信息
+    $data[&#39;show_title&#39;] = &quot;购买一个会员&quot;;
+    $data[&#39;show_money&#39;] = 100;
+  
+    $key = &quot;abcdefg&quot;;
+    Redis::set($key, $data);
+
+    return $key;
+&#125;
+</code></pre>
+<h2 id="着手改造"><a href="#着手改造" class="headerlink" title="着手改造"></a>着手改造</h2><blockquote>
+<ol>
+<li>涉及支付的模块有：开通会员、充值、购买单个商品等</li>
+<li>开发支付流程：<ol>
+<li>生成二维码（生成临时订单 <code>redis</code>，返回 <code>redis</code> 零时订单 <code>key</code>）</li>
+<li>手机端确认购买信息（展示购买商品信息）</li>
+<li>手机端确认支付 （通过临时订单的 <code>key</code> ，创建一条订单数据到数据库）</li>
+<li>根据临时订单的 <code>key</code> 创建订单</li>
+<li>拉起支付</li>
+<li>回调</li>
+</ol>
+</li>
+<li>涉及到的设计模式<ol>
+<li>策略模式</li>
+<li>简单工厂模式</li>
+</ol>
+</li>
+</ol>
+</blockquote>
+<h3 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h3><p>原来的返回格式：</p>
+<pre><code class="php">public function json($code, $msg, $data)
+&#123;
+    return [&#39;status&#39; =&gt; $code, &#39;message&#39; =&gt; $msg, &#39;data&#39; =&gt; $data];
+&#125;
+// 调用
+json(200, &quot;Ok&quot;, []);
+</code></pre>
+<p>虽然没什么大问题，但调用起来不太方便，也不直观，每次还需要传入一些不必要的参数，这里增加一些常用的返回方法</p>
+<p>在 <code>BaseContrller</code> 中增加几个返回数据的方法，方便调用</p>
+<pre><code class="php">const SUCCESS_CODE = 200;
+const SUCCESS_FAIL = 100;
+
+protected function success($msg = &#39;ok&#39;, $data = [], $code = self::SUCCESS_CODE)
+&#123;
+    return [&#39;status&#39; =&gt; $code, &#39;message&#39; =&gt; $msg, &#39;data&#39; =&gt; $data];
+&#125;
+
+protected function data($data = [], $msg = &#39;ok&#39;, $code = self::SUCCESS_CODE)
+&#123;
+    return [&#39;status&#39; =&gt; $code, &#39;message&#39; =&gt; $msg, &#39;data&#39; =&gt; $data];
+&#125;
+
+protected function fail($msg = &#39;ok&#39;, $data = [], $code = self::SUCCESS_FAIL)
+&#123;
+    return [&#39;status&#39; =&gt; $code, &#39;message&#39; =&gt; $msg, &#39;data&#39; =&gt; $data];
+&#125;
+</code></pre>
+<h3 id="按模块区分不同的下单链接"><a href="#按模块区分不同的下单链接" class="headerlink" title="按模块区分不同的下单链接"></a>按模块区分不同的下单链接</h3><blockquote>
+<p>由原来的统一 <code>qrcode</code> 链接分出 3 个接口，每个接口只需要接收自己需要的参数就行，不需要原来的 <code>type</code> 来区分参数 </p>
+</blockquote>
+<ol>
+<li>开通会员： <code>/buy/vip</code></li>
+<li>充值：<code>/buy/recharge</code></li>
+<li>购买商品：<code>/buy/goods</code></li>
+</ol>
+<h3 id="创建临时订单策略"><a href="#创建临时订单策略" class="headerlink" title="创建临时订单策略"></a>创建临时订单策略</h3><ol>
+<li><p>创建一个订单的 <code>抽象策略</code>，定义算法的接口，所有策略必须实现临时订单的接口，</p>
+<p> app/Http/Services/PayOrder/PayOrderStrategy.php</p>
+<pre><code class="php">abstract class PayOrderStrategy
+&#123;
+    abstract function createTemporaryOrder($request);
+&#125;
+</code></pre>
+</li>
+<li><p>创建一个 <code>Context</code> 类</p>
+<p> app/Http/Services/PayOrder/PayOrderStrategy.php</p>
+<pre><code class="php">class PayOrderContext
+&#123;
+    private $strategy;
+
+    public function __construct(PayOrderStrategy $payOrderStrategy)
+    &#123;
+        return $this-&gt;strategy = $payOrderStrategy;
+    &#125;
+
+    public function createOrder(Request $request)
+    &#123;
+        return $this-&gt;strategy-&gt;createTemporaryOrder($request);
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>基础的策略框架已经搭建好，现在就需要具体的策略了</p>
+<blockquote>
+<p>开通 vip 策略</p>
+</blockquote>
+<p> <code>$request</code> 是<a href="#%E5%AE%9E%E7%8E%B0%E5%BC%80%E9%80%9Avip%E6%8E%A5%E5%8F%A3">开通 vip</a> 接口中传入的 <code>$request</code></p>
+<p> app/Http/Services/PayOrder/Strategy/VipStrategy.php</p>
+<pre><code class="php">// 开通 vip
+class VipStrategy extends PayOrderStrategy
+&#123;
+      // 组装临时订单的数据，然后存入 redis
+      // 这里是 vip 策略，所以只专注 vip 需要的数据就好
+    function createTemporaryOrder(Request $request)
+    &#123;
+        $packageCode = $request[&#39;code&#39;];
+        $package     = app(PayOrderService::class)-&gt;getVipByCode($packageCode);
+
+        // 临时订单数据
+           $tmpOrder = [
+            &#39;package_cope&#39; =&gt; $package-&gt;toArray(),
+            &#39;type&#39;         =&gt; PayOrderService::TYPE_VIP,
+            &#39;uid&#39;          =&gt; 1,
+            &#39;ip&#39;           =&gt; $request-&gt;ip(),
+            // ....
+        ];
+      
+        return app(PayOrderService::class)-&gt;saveTemporaryOrder($tmpOrder);
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>创建一个订单服务类，写一些创建订单的公共方法</p>
+<p> app/Http/Services/PayOrderService.php</p>
+<pre><code>use Ramsey\Uuid\Uuid;
+
+class PayOrderService
+&#123;
+    const TYPE_VIP      = 1; // 购买 vip
+    const TYPE_RECHARGE = 2; // 充值
+    const TYPE_GOODS    = 3; // 购买商品
+
+    // 通过 code 查询 vip 套餐信息
+    public function getVipByCode(string $code)
+    &#123;
+        // 这里应是从数据库获取数据返回
+        return collect([&#39;id&#39; =&gt; 1, &#39;code&#39; =&gt; &#39;vip1&#39;, &#39;price&#39; =&gt; 100, &#39;vip_day&#39; =&gt; 30]);
+    &#125;
+
+    // 保存临时订单
+    public function saveTemporaryOrder(array $tmpOrder)
+    &#123;
+        $key = Uuid::uuid4()-&gt;toString();
+        Cache::set($key, $tmpOrder, 3);
+
+        return $key;
+    &#125;
+&#125;
+</code></pre>
+<p> 目前的目录解构</p>
+<p> app/Http/Services/</p>
+<pre><code class="php">├── PayOrder
+│   ├── PayOrderContext.php
+│   ├── PayOrderStrategy.php
+│   └── Strategy
+│       └── VipStrategy.php
+└── PayOrderService.php
+</code></pre>
+</li>
+</ol>
+<h3 id="实现开通vip接口"><a href="#实现开通vip接口" class="headerlink" title="实现开通vip接口"></a>实现开通vip接口</h3><p>所有接口的数据都是通过 <code>laravel</code> <a target="_blank" rel="noopener" href="https://learnku.com/docs/laravel/5.6/validation/1372#106bee">表单请求验证</a></p>
+<p>路由：routes/web.php</p>
+<pre><code class="php">Route::get(&#39;/buy/vip&#39;, &quot;PayController@vip&quot;)-&gt;name(&#39;vip&#39;);
+</code></pre>
+<p>app/Http/Controllers/PayController.php        </p>
+<pre><code class="php">public function vip(Request $request)
+&#123;
+    $strategy = new VipStrategy();
+    $tmpOrderKey = (new PayOrderContext($strategy))-&gt;createOrder($request);
+
+    return $this-&gt;data([&#39;key&#39; =&gt; $tmpOrderKey]);
+&#125;
+</code></pre>
+<pre><code class="curl">curl http://127.0.0.1:8000/buy/vip?code=vip1 | json
+&#123;
+  &quot;status&quot;: 200,
+  &quot;message&quot;: &quot;ok&quot;,
+  &quot;data&quot;: &#123;
+    &quot;key&quot;: &quot;35349845-0e76-4973-b240-67e7b3cdda42&quot;
+  &#125;
+&#125;
+</code></pre>
+<p>临时订单已生成，现在需要需要开发手机扫码后的预览接口</p>
+<h3 id="预览订单"><a href="#预览订单" class="headerlink" title="预览订单"></a>预览订单</h3><p>正常来说预览订单是每个支付都需要有的功能，所以增加一个抽象方法</p>
+<ol>
+<li><p>在 <code>app/Http/Services/PayOrder/PayOrderStrategy.php</code> 新增一个 <code>preview</code> 的抽象方法 </p>
+<pre><code class="php">abstract class PayOrderStrategy
+&#123;
+    // 创建临时订单
+    abstract function createTemporaryOrder(Request $request);
+  
+       // 预览订单
+    protected function preview(array $tmpOrder)
+    &#123;
+        throw new UnsupportedOperationException(&quot;不支持的方法&quot;);
+    &#125;
+&#125;
+</code></pre>
+<p> 你可能会好奇，这里预览订单为什么要抛出一个异常呢？因为有些第三方支付没有手机支付，只能 pc 端跳转，所以就不会涉及预览这一说</p>
+<p> 如果定义成 <code>abstract</code> 下面继承的方法有必须实现，这个非必须的就直接定义成 <code>protected</code> 并抛出一个异常，开发的时候如果错误的调用了这个方法就会知道，当前支付方式不支持订单的预览</p>
+</li>
+<li><p>开通 vip 策略实现 <code>preview</code> 方法，参数是临时订单的信息</p>
+<p> app/Http/Services/PayOrder/Strategy/VipStrategy.php</p>
+<pre><code class="php">function createTemporaryOrder(Request $request)&#123; /*...*/ &#125;
+
+function preview(array $tmpOrder)
+&#123;
+    $preview = [
+        &#39;title&#39;   =&gt; &#39;开通会员&#39;,
+        &#39;price&#39;   =&gt; $tmpOrder[&#39;price&#39;],
+        &#39;vip_day&#39; =&gt; $tmpOrder[&#39;vip_day&#39;]
+    ];
+
+    return $preview;
+&#125;
+</code></pre>
+</li>
+<li><p>预览订单接口</p>
+<p> 这个接口返回一个页面，手机扫码收可以预览并且有下单按钮</p>
+<p> 路由：routes/web.php</p>
+<pre><code class="php">Route::get(&#39;/buy/preview&#39;, &quot;PayController@preview&quot;)-&gt;name(&#39;preview&#39;);
+</code></pre>
+<p> app/Http/Controllers/PayController.php</p>
+<pre><code class="php">// 预览订单接口
+public function preview(Request $request)
+&#123;
+    // 请求下单接口后返回的临时订单 key
+    $tmpOrderKey = $request-&gt;get(&#39;key&#39;);
+
+    // 获取临时订单
+    $tmpOrder = app(PayOrderService::class)-&gt;getTemporaryOrder($tmpOrderKey);
+
+    if (!$tmpOrder) &#123;
+        throw new TemporaryOrderException(&quot;订单已过期&quot;);
+    &#125;
+
+    $strategy = new VipStrategy();
+    $preview = (new PayOrderContext($strategy))-&gt;preview($tmpOrder);
+
+    return view(&#39;preview&#39;, $preview);
+&#125;
+</code></pre>
+</li>
+<li><p>生成二维码</p>
+<p> 前端请求 vip 接口之后使用返回的临时订单 key，作为 <code>query</code> 参数请求 <code>预览订单</code> 接口</p>
+<p> <code>http://127.0.0.1:8000/buy/preview?key=35349845-0e76-4973-b240-67e7b3cdda42</code></p>
+  <div center="left">
+      <img src="https://cdn.jsdelivr.net/gh/zxr615/md-images/images/2020image-20210317142724525.png" alt="下单二维码" width=150 />
+      <img src="https://cdn.jsdelivr.net/gh/zxr615/md-images/images/2020image-20210317142241260.png" alt="手机确认支付页面" width=150 />
+  </div></li>
+</ol>
+<ol start="5">
+<li><p>接下来就是立即支付了，但立即支付前还有个问题，预览订单接口的 <code>策略选择</code> 似乎有点问题，这里设计的预览订单接口不论是 <code>开通 vip</code> 还是 <code>充值</code> 都是请求这个接口，所以这里还需要判断一下购买的类型来调用不同的策略。</p>
+<p> 这里用临时订单中的 <code>type</code> 来判断支付的类型，根据 <code>type</code> 来选择策略</p>
+<pre><code class="php">public function preview(Request $request)
+&#123;
+    ...
+    
+    $strategy = new \stdClass();
+    switch ($tmpOrder[&#39;type&#39;]) &#123;
+        case PayOrderService::TYPE_VIP:
+            $strategy = new VipStrategy();
+            break;
+        case PayOrderService::TYPE_RECHARGE:
+            // $strategy = new RechargeStrategy();
+            break;
+        // ...
+    &#125;
+
+    $preview  = (new PayOrderContext($strategy))-&gt;preview($tmpOrder);
+
+    return view(&#39;preview&#39;, $preview);
+&#125;
+</code></pre>
+<p> 好嘛~，问题又来了，这 <code>switch</code> 看着有点不爽，再把它独立出来吧，加一个获取策略的 <code>简单工厂</code> ，接下来优化这段选择策略的代码</p>
+<p> 创建 <code>PreviewFactory</code> 简单工厂</p>
+<p> <code>touch app/Http/Services/PayOrder/PreviewFactory.php</code></p>
+<pre><code class="php">namespace App\Http\Services\PayOrder;
+
+use App\Exceptions\BusinessException;
+use App\Exceptions\TemporaryOrderException;
+use App\Http\Services\PayOrder\Strategy\VipStrategy;
+use App\Http\Services\PayOrderService;
+
+class PreviewFactory
+&#123;
+    public static function strategy(string $key)
+    &#123;
+        // 获取临时订单
+        $tmpOrder = app(PayOrderService::class)-&gt;getTemporaryOrder($key);
+
+        if (!$tmpOrder) &#123;
+            throw new TemporaryOrderException(&quot;订单已过期&quot;);
+        &#125;
+
+        $strategy = new \stdClass();
+        switch ($tmpOrder[&#39;type&#39;]) &#123;
+            case PayOrderService::TYPE_VIP:
+                $strategy = new VipStrategy();
+                break;
+            case PayOrderService::TYPE_RECHARGE:
+                // return new Recharge();
+                break;
+            // ...
+            default:
+                throw new BusinessException(&#39;订单类型错误.&#39;);
+        &#125;
+
+        return $strategy;
+    &#125;
+&#125;
+</code></pre>
+<p> 现在再来看看 <code>preview</code> 接口</p>
+<pre><code class="php">public function preview(Request $request)
+&#123;
+    $tmpOrderKey = $request-&gt;get(&#39;key&#39;);
+
+    try &#123;
+        $preview = PreviewFactory::strategy($tmpOrderKey)-&gt;preview($tmpOrderKey);
+    &#125; catch (TemporaryOrderException $e) &#123;
+        return $this-&gt;fail($e-&gt;getMessage());
+    &#125;
+
+    return view(&#39;preview&#39;, $preview);
+&#125;
+</code></pre>
+</li>
+</ol>
+<h3 id="发起支付"><a href="#发起支付" class="headerlink" title="发起支付"></a>发起支付</h3><ol>
+<li><p>和创建订单策略同样，我们也创建一个支付策略</p>
+<p> /Users/tuju/Project/pay/app/Http/Services/Payment</p>
+<pre><code class="tree">Payment
+├── PaymentContext.php
+├── PaymentFactory.php
+├── PaymentStrategy.php
+└── Strategy
+    ├── AlipayStrategy.php
+    ├── UnionStrategy.php
+    └── WechatStrategy.php
+</code></pre>
+</li>
+<li><p>定义支付接口</p>
+<p> PaymentStrategy.php</p>
+<pre><code>interface PaymentStrategy
+&#123;
+    public function pay(array $order);
+&#125; 
+</code></pre>
+</li>
+<li><p>上下文联系</p>
+<p> PaymentContext.php</p>
+<pre><code class="php">class PaymentContext
+&#123;
+    private $strategy;
+
+    public function __construct(PaymentStrategy $paymentStrategy)
+    &#123;
+        return $this-&gt;strategy = $paymentStrategy;
+    &#125;
+
+    public function pay(array $order)
+    &#123;
+        return $this-&gt;strategy-&gt;pay($order);
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>获取支付策略的工厂</p>
+<p> PaymentFactory.php</p>
+<pre><code class="php">class PaymentFactory
+&#123;
+    public static function strategy(string $payType)
+    &#123;
+        switch ($payType) &#123;
+            case &#39;wechat&#39;:
+                $strategy = new WechatStrategy();
+                break;
+            case &#39;alipay&#39;:
+                $strategy = new AlipayStrategy();
+                break;
+            case &#39;union&#39;:
+                $strategy = new UnionStrategy();
+                break;
+            // case...
+            default:
+                throw new BusinessException(&quot;支付方式不存在&quot;);
+        &#125;
+
+        return $strategy;
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>制定具体支付策略</p>
+<ol>
+<li><p>支付宝策略<br> Strategy/AlipayStrategy.php</p>
+<pre><code class="php">class AlipayStrategy implements PaymentStrategy
+&#123;
+    public function pay(array $order)
+    &#123;
+        /**
+        * 向支付宝请求
+        * @see 支付宝官方sdk https://github.com/alipay/alipay-easysdk/tree/master/php
+        * @see 第三方sdk https://github.com/lokielse/omnipay-alipay
+        */
+        return &quot;https://www.alipay.com/&quot;;
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>微信策略<br>Strategy/WechatStrategy.php</p>
+</li>
+</ol>
+<pre><code class="php">class WechatStrategy implements PaymentStrategy
+&#123;
+    public function pay(array $order)
+    &#123;
+        /**
+        *
+        * @see 微信官方 https://github.com/wechatpay-apiv3/wechatpay-guzzle-middleware
+        * @see 官方文档 https://pay.weixin.qq.com/wiki/doc/apiv3/open/pay/chapter2_6_2.shtml
+        * @see 第三方sdk https://github.com/lokielse/omnipay-wechatpay
+        */
+        return &quot;https://pay.weixin.qq.com/&quot;;
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>确认支付接口</p>
+<p> app/Http/Controllers/PayController.php</p>
+<pre><code class="php">public function pay(Request $request)
+&#123;
+    $tmpOrderKey = $request-&gt;get(&#39;key&#39;);
+    // pay_type=wechat|alipay|union
+    $payType = $request-&gt;get(&#39;pay_type&#39;);
+
+    // 处理订单数据、创建订单
+    $tmpOrder = app(PayOrderService::class)-&gt;getTemporaryOrder($tmpOrderKey);
+    $order = [ /** ... */];
+    $created = app(PayOrderService::class)-&gt;createOrder($order);
+
+    if (!$created) &#123;
+        return $this-&gt;fail(&quot;支付失败, 请重新生成订单.&quot;);
+    &#125;
+
+    // 发起支付
+    try &#123;
+        // 前面我们定义了一个支付策略工厂模式，帮助我们实例化策略，所以这里传入我们的支付方式
+        // 工厂就会帮我们对应支付策略返回回来，然后我们再统一调用 pay() 这个方法
+        $strategy = PaymentFactory::strategy($payType);
+        // 一般第三方会返回一个支付跳转链接，点击确认支付的时候用户是已经在手机页面了
+        // 所以直接跳转链接就可以拉起对应的支付了。
+        $url = (new PaymentContext($strategy))-&gt;pay($created);
+    &#125; catch (BusinessException $e) &#123;
+        $this-&gt;fail($e-&gt;getMessage());
+    &#125;
+
+    // 跳转
+    return redirect($url);
+&#125;
+</code></pre>
+</li>
+<li><p>最后列出下最终策略模块的树状图</p>
+<pre><code>├── PayOrder 支付相关策略集合
+│   ├── PayOrderContext.php
+│   ├── PayOrderStrategy.php
+│   ├── PreviewFactory.php
+│   └── Strategy 具体策略，如果要充值，则新建一个充值策略即可，新增的方式也不会影响到开通会员的相关功能
+│       └── VipStrategy.php 开通 vip 策略
+├── PayOrderService.php 一些公用方法
+└── Payment 支付相关策略集合
+    ├── PaymentContext.php
+    ├── PaymentFactory.php
+    ├── PaymentStrategy.php
+    └── Strategy 具体策略，可以增加各种第三方支付
+        ├── AlipayStrategy.php 支付宝
+        ├── UnionStrategy.php 微信
+        └── WechatStrategy.php 银联
+</code></pre>
+</li>
+</ol>
+<h2 id="解决的问题"><a href="#解决的问题" class="headerlink" title="解决的问题"></a>解决的问题</h2><ul>
+<li><p>将接口细分，不再是所有订单都进入同一个方法，解决了参数混乱问题</p>
+</li>
+<li><p>把大杂烩 <code>$data</code> 中的数据全部切分到每个不同的策略中去，而不是在方法中使用大量的 <code>if</code> 和 <code>switch</code> 来处理，再增加类型时只需要关注新增的策略即可</p>
+</li>
+<li><p>把接口数据用 <code>laravel</code> <a target="_blank" rel="noopener" href="https://learnku.com/docs/laravel/5.6/validation/1372#106bee">表单请求验证</a> 来判断，而不是在 <code>controller</code> 和  <code>service</code> 层用 <code>if</code> 来判断</p>
+</li>
+<li><p>把 <code>\Exception</code> 代码全部替换成相应的业务异常</p>
+<p>​    </p>
+</li>
+</ul>
+<h2 id="不足之处"><a href="#不足之处" class="headerlink" title="不足之处"></a>不足之处</h2><p>已更新：<a target="_blank" rel="noopener" href="https://learnku.com/articles/56364">使用策略模式和简单工厂模式重写支付模块(二)-优化$request </a></p>
+<ul>
+<li><code>$request</code> 我认为还是不要往下传递比较好，最好在控制器中处理，但整体支付逻辑还是比较复杂，传参的话又需要传入很多参数，暂时也没有想出什么好的方法，所以还是决定将 <code>$request</code> 往下传递了。</li>
+<li>创建订单中的零时订单存入到 redis 后再获取，还是不能明确知道数组里具体存入了什么数据，在 GO 中在序列化 <code>json</code> 时需要一个 <code>struct</code> 来支持，明确表名 json 中有什么字段，这样开发时既不容易出错，也减少很多梳理代码的时间；我认为可以新建一个 class 来模拟 GO 中的 <code>struct</code> 来明确 json 里面有什么数据。</li>
+</ul>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p><a target="_blank" rel="noopener" href="https://github.com/zxr615/rewrite-pay-module">https://github.com/zxr615/rewrite-pay-module</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li><p>不要抛出 <code>\Exception</code> 异常，业务上的错误异常应该抛出自定义异常</p>
+</li>
+<li><p>尽量不要去捕获 <code>\Exception</code> 异常，<code>\Exception</code> 异常应该由顶层的 <code>Handel</code> 去处理；如遇到事务需要 <code>rollback</code> 的话，捕获 <code>Exception</code> 后，在返回错误信息前，需要手动记录下异常的详细信息。</p>
+</li>
+<li><p>一段代码如果有两处以上用到，应该独立出一个公共方法。</p>
+</li>
+<li><p>参数的验证在控制层面就校验完成，不要再传到 service 中处理。</p>
+</li>
+<li><p>善用设计模式</p>
+</li>
+<li><p>不要用 <code>0</code>, <code>1</code>, <code>2</code> 传参、判段等，不梳理上下文代码，实在是不知道什么意思，如果改变了其代号意思，则所有涉及到的地方都需要修改判断，可以用常量来管理各种代号。</p>
+<pre><code class="php">public const PAY_STATUS_FAIL = 0;
+public const PAY_STATUS_OK   = 1;
+public const PAY_STATUS_WAIT = 2;
+
+public function give($payStatus)
+&#123;
+    // 最不明确的方法, 如果没注释真不知道什么意思
+    if ($payStatus == 1) &#123;
+        // ...
+    &#125;
+
+    // 比较好的方法，即便没有注释，意思也比较明确
+    if ($payStatus == self::PAY_STATUS_OK) &#123;
+        // ...
+    &#125;
+
+    // 我更喜欢用的方法，定义一个方法，看方法名知其意
+    if ($this-&gt;isPaid($payStatus)) &#123;
+        // ...
+    &#125;
+&#125;
+
+// 是否已支付完成
+public function isPaid($payStatus)
+&#123;
+    return $payStatus == self::PAY_STATUS_OK;
+&#125;
+</code></pre>
+</li>
+</ol>
+<p>最后，大家有什么改进之处，或者疑问之处欢迎大家提出、指正。</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 zxr615@foxmail.com </span>
+    </div>
+</article>
+
+
+
+
+
+    <div id="comments"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script type="text/javascript">
+    $.getScript('/js/gitalk.js', function () {
+        var gitalk = new Gitalk({
+            clientID: '0ea9b0a66146ed3dcc20',
+            clientSecret: '84534118312b9898c87ab706630d7a5902a539c8',
+            repo: 'zxr615.github.io',
+            owner: 'zxr615',
+            admin: ['zxr615'],
+            id: decodeURI(location.pathname),
+            distractionFreeMode: 'true',
+            language: 'zh-CN',
+            perPage: parseInt('10',10),
+            proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token',
+        })
+        gitalk.render('comments')
+    })
+</script>
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2016-2020 Yelog
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

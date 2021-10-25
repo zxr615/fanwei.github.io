@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>wsl-Ubuntu安装好后的配置 | Hexo</title>
+  <meta name="keywords" content=" Linux , wsl2 , Ubuntu ">
+  <meta name="description" content="wsl-Ubuntu安装好后的配置 | Hexo">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="http://example.com/about/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-15T13:25:11.000Z">
+<meta property="article:modified_time" content="2021-08-08T07:07:19.356Z">
+<meta property="article:author" content="Fan Wei">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>Fan Wei</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:zxr615@foxmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(16)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="读书">
+                        
+                        读书
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="运维">
+                        
+                        运维
+                        <small>(8)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Goland">
+                        
+                        Goland
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="PHP">
+                        
+                        PHP
+                        <small>(5)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="16">
+<input type="hidden" id="yelog_site_word_count" value="12.6k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>股票</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>基金</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>设计模式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>投资</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Alipay</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Benchmark</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>brew</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>DI</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Goland</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Golang</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>IoC</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Laravel</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>mac</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>node</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>php</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>PHP</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Samba</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>software</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SSH</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Template</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Test</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Ubuntu</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>wsl2</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>xdebug</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <div id="local-search-result">
+
+    </div>
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 "
+           href="/2021/09/13/escase/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2021-09-13 21:45:53">2021/09/13</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/08/25/brew-%E5%AE%89%E8%A3%85-php/"
+           data-tag="brew,PHP"
+           data-author="" >
+            <span class="post-title" title="brew 安装 php">brew 安装 php</span>
+            <span class="post-date" title="2021-08-25 11:45:07">2021/08/25</span>
+        </a>
+        
+        <a  class="全部文章 读书 "
+           href="/2021/08/09/%E6%8C%87%E6%95%B0%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84%E6%8C%87%E5%8D%97/"
+           data-tag="基金,投资,股票"
+           data-author="" >
+            <span class="post-title" title="《指数基金投资指南》">《指数基金投资指南》</span>
+            <span class="post-date" title="2021-08-09 21:20:46">2021/08/09</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/05/24/wsl-Ubuntu%E5%AE%89%E8%A3%85%E5%A5%BD%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/"
+           data-tag="Linux,wsl2,Ubuntu"
+           data-author="" >
+            <span class="post-title" title="wsl-Ubuntu安装好后的配置">wsl-Ubuntu安装好后的配置</span>
+            <span class="post-date" title="2021-05-24 23:20:45">2021/05/24</span>
+        </a>
+        
+        <a  class="全部文章 Goland "
+           href="/2021/05/13/%E4%BD%BF%E7%94%A8Goland%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF%E7%94%9F%E6%88%90%E6%96%87%E4%BB%B6/"
+           data-tag="Golang,Goland,Template"
+           data-author="" >
+            <span class="post-title" title="使用Goland文件模板生成文件">使用Goland文件模板生成文件</span>
+            <span class="post-date" title="2021-05-13 19:29:52">2021/05/13</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/05/06/%E6%9B%B4%E6%8D%A2-brew-%E6%BA%90/"
+           data-tag="mac,brew"
+           data-author="" >
+            <span class="post-title" title="更换 brew 源">更换 brew 源</span>
+            <span class="post-date" title="2021-05-06 10:34:35">2021/05/06</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/04/23/%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/"
+           data-tag="software"
+           data-author="" >
+            <span class="post-title" title="常用软件">常用软件</span>
+            <span class="post-date" title="2021-04-23 09:53:50">2021/04/23</span>
+        </a>
+        
+        <a  class="全部文章 PHP "
+           href="/2021/04/15/%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E9%87%8D%E5%86%99%E6%94%AF%E4%BB%98%E6%A8%A1%E5%9D%97(%E4%BA%8C)-%E4%BC%98%E5%8C%96$request/"
+           data-tag="Laravel,Alipay,设计模式"
+           data-author="" >
+            <span class="post-title" title="使用策略模式和简单工厂模式重写支付模块(二)-优化$request">使用策略模式和简单工厂模式重写支付模块(二)-优化$request</span>
+            <span class="post-date" title="2021-04-15 18:50:17">2021/04/15</span>
+        </a>
+        
+        <a  class="全部文章 PHP "
+           href="/2021/04/07/%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84IoC%E5%AE%B9%E5%99%A8%EF%BC%8C%E7%90%86%E8%A7%A3%E4%BB%80%E4%B9%88%E6%98%AF%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E5%92%8C%E6%8E%A7%E5%88%B6%E5%8F%8D%E8%BD%AC/"
+           data-tag="Laravel,IoC,DI"
+           data-author="" >
+            <span class="post-title" title="写一个简单的IoC容器案例，理解什么是依赖注入和控制反转">写一个简单的IoC容器案例，理解什么是依赖注入和控制反转</span>
+            <span class="post-date" title="2021-04-07 17:35:54">2021/04/07</span>
+        </a>
+        
+        <a  class="全部文章 PHP "
+           href="/2021/04/06/xdebug&phpstorm%E8%B0%83%E8%AF%95/"
+           data-tag="xdebug,php"
+           data-author="" >
+            <span class="post-title" title="xdebug &amp; phpstorm 调试">xdebug &amp; phpstorm 调试</span>
+            <span class="post-date" title="2021-04-06 11:16:54">2021/04/06</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/03/24/wsl2%20ip%E9%85%8D%E7%BD%AE/"
+           data-tag="Linux,wsl2,Ubuntu"
+           data-author="" >
+            <span class="post-title" title="wsl2 ip配置">wsl2 ip配置</span>
+            <span class="post-date" title="2021-03-24 22:06:43">2021/03/24</span>
+        </a>
+        
+        <a  class="全部文章 PHP "
+           href="/2021/03/19/%E4%BD%BF%E7%94%A8phpbench%E5%81%9A%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95/"
+           data-tag="Test,Benchmark"
+           data-author="" >
+            <span class="post-title" title="使用phpbench做基准测试">使用phpbench做基准测试</span>
+            <span class="post-date" title="2021-03-19 11:31:28">2021/03/19</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/03/18/ubuntu/"
+           data-tag="node,Linux"
+           data-author="" >
+            <span class="post-title" title="ubuntu安装node">ubuntu安装node</span>
+            <span class="post-date" title="2021-03-18 23:33:29">2021/03/18</span>
+        </a>
+        
+        <a  class="全部文章 PHP "
+           href="/2021/03/18/%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E9%87%8D%E5%86%99%E6%94%AF%E4%BB%98%E6%A8%A1%E5%9D%97/"
+           data-tag="Laravel,Alipay,设计模式"
+           data-author="" >
+            <span class="post-title" title="使用策略模式和简单工厂模式重写支付模块">使用策略模式和简单工厂模式重写支付模块</span>
+            <span class="post-date" title="2021-03-18 14:44:45">2021/03/18</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/01/01/ssh%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/"
+           data-tag="SSH"
+           data-author="" >
+            <span class="post-title" title="ssh使用记录">ssh使用记录</span>
+            <span class="post-date" title="2021-01-01 21:55:06">2021/01/01</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2020/11/11/samba%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/"
+           data-tag="Samba"
+           data-author="" >
+            <span class="post-title" title="samba使用记录">samba使用记录</span>
+            <span class="post-date" title="2020-11-11 23:57:16">2020/11/11</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-wsl-Ubuntu安装好后的配置" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">wsl-Ubuntu安装好后的配置</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="运维">运维</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color1">Linux</a>
+            
+            <a class="color5">wsl2</a>
+            
+            <a class="color2">Ubuntu</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2021-08-08 15:07:19'>2021-05-24 23:20</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>字数:1.3k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+        <span class="top-comment" title="跳转至评论区">
+            <a href="#comments">
+                评论:<span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </a>
+        </span>
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#wsl-%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3"><span class="toc-text">wsl 官方文档</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%87%E6%8D%A2-apt-%E6%BA%90"><span class="toc-text">切换 apt 源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-SSH"><span class="toc-text">配置 SSH</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E7%A7%98%E9%92%A5"><span class="toc-text">生成秘钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-text">服务端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-text">客户端</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%AB%E5%90%8D%E7%99%BB%E5%BD%95-%E5%8C%BA%E5%88%86%E5%A4%9A%E4%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">别名登录,区分多个服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%94%9F%E6%95%88"><span class="toc-text">重启生效</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sudo%E5%85%8D%E8%BE%93%E5%85%A5%E5%AF%86%E7%A0%81"><span class="toc-text">sudo免输入密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#service%E5%91%BD%E4%BB%A4"><span class="toc-text">service命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86"><span class="toc-text">终端代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF"><span class="toc-text">服务自启</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E8%87%AA%E5%90%AF%E6%9C%8D%E5%8A%A1"><span class="toc-text">定义自启服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%85%A5%E8%87%AA%E5%90%AF%E5%86%85%E5%AE%B9"><span class="toc-text">写入自启内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%9D%83%E9%99%90"><span class="toc-text">修改权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1"><span class="toc-text">启动服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-%E7%AB%AF"><span class="toc-text">Windows 端</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-net-tools"><span class="toc-text">安装 net-tools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85gcc"><span class="toc-text">安装gcc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-git"><span class="toc-text">安装 git</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-zsh"><span class="toc-text">安装 zsh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh"><span class="toc-text">zsh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#oh-my-zsh"><span class="toc-text">oh-my-zsh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6"><span class="toc-text">插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-1"><span class="toc-text">配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php-amp-php-fpm-amp-composer"><span class="toc-text">php&amp;php-fpm&amp;composer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#php"><span class="toc-text">php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#php-fpm"><span class="toc-text">php-fpm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#composer"><span class="toc-text">composer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8"><span class="toc-text">启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC%E8%BD%AF%E9%93%BE"><span class="toc-text">启动脚本软链</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-go"><span class="toc-text">安装 go</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-nodejs"><span class="toc-text">安装 nodejs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3"><span class="toc-text">官方文档</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-nginx"><span class="toc-text">安装 nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-redis"><span class="toc-text">安装 redis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-1"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-1"><span class="toc-text">启动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-mysql"><span class="toc-text">安装 mysql</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-2"><span class="toc-text">启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%AE%89%E5%85%A8%E5%90%91%E5%AF%BC"><span class="toc-text">设置安全向导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAmysql%E7%94%A8%E6%88%B7"><span class="toc-text">创建一个mysql用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90"><span class="toc-text">查看用户权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%99%E4%BA%88root%E6%9D%83%E9%99%90"><span class="toc-text">给予root权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%B7%E6%96%B0%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90"><span class="toc-text">刷新用户权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%94%A8%E6%88%B7"><span class="toc-text">查看用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-1"><span class="toc-text">配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF"><span class="toc-text">查询配置信息</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95"><span class="toc-text">免密登录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%AE%89%E5%85%A8%E5%8F%98%E9%87%8F%E5%80%BC"><span class="toc-text">查看安全变量值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%86%E7%A0%81%E5%BC%BA%E5%BA%A6"><span class="toc-text">密码强度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81"><span class="toc-text">修改密码</span></a></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="wsl-官方文档"><a href="#wsl-官方文档" class="headerlink" title="wsl 官方文档"></a>wsl 官方文档</h2><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/wsl/">https://docs.microsoft.com/zh-cn/windows/wsl/</a></p>
+<h2 id="切换-apt-源"><a href="#切换-apt-源" class="headerlink" title="切换 apt 源"></a>切换 apt 源</h2><p><a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/">https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/</a></p>
+<pre><code class="console">sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak &amp;&amp; sudo vim /etc/apt/sources.list
+</code></pre>
+<pre><code class="console">sudo apt update
+</code></pre>
+<h2 id="配置-SSH"><a href="#配置-SSH" class="headerlink" title="配置 SSH"></a>配置 SSH</h2><h3 id="生成秘钥"><a href="#生成秘钥" class="headerlink" title="生成秘钥"></a>生成秘钥</h3><pre><code class="shell">ssh-keygen -t rsa -C &quot;zxr615@foxmail.com&quot;
+</code></pre>
+<blockquote>
+<p>创建 <code>RSA</code> <code>DSA</code> <code>ECDSA</code>  <code>ED25519</code> 到 <code>/etc/ssh/*</code></p>
+</blockquote>
+<pre><code class="shell">ssh-keygen -A
+</code></pre>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><h4 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h4><pre><code class="shell">sudo vim /etc/ssh/sshd_config
+</code></pre>
+<pre><code class="shell"># 允许公钥登录
+PubkeyAuthentication yes
+# 公钥文件
+AuthorizedKeysFile .ssh/authorized_keys
+# 允许密码登录
+PasswordAuthentication yes
+</code></pre>
+<h4 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h4><p>查看公钥</p>
+<pre><code>cat ~/.ssh/id_rsa.pub
+</code></pre>
+<p>客户端中的「id_rsa.pub」内容追加进服务端的 「authorized_keys」中</p>
+<pre><code class="shell">sudo vim ~/.ssh/authorized_keys
+</code></pre>
+<p>免密登录</p>
+<pre><code class="shell">SSH fanwei@192.168.0.1
+</code></pre>
+<h3 id="别名登录-区分多个服务器"><a href="#别名登录-区分多个服务器" class="headerlink" title="别名登录,区分多个服务器"></a>别名登录,区分多个服务器</h3><p>客户端：</p>
+<pre><code class="shell">vim ~/.ssh/config
+</code></pre>
+<p>写入</p>
+<pre><code>Host ubuntu
+    HostName fanwei.cn
+    Port 22
+    User fanwei
+    IdentityFile ~/.ssh/id_rsa
+    
+Host ubuntu2
+    HostName fanwei2.cn
+    Port 22
+    User fanwei
+    IdentityFile ~/.ssh/id_rsa
+</code></pre>
+<p>登录</p>
+<pre><code class="shell">ssh ubuntu
+</code></pre>
+<pre><code class="shell">ssh ubuntu2
+</code></pre>
+<h3 id="重启生效"><a href="#重启生效" class="headerlink" title="重启生效"></a>重启生效</h3><pre><code>sudo service ssh restart
+</code></pre>
+<h2 id="sudo免输入密码"><a href="#sudo免输入密码" class="headerlink" title="sudo免输入密码"></a>sudo免输入密码</h2><pre><code class="shell">visudo
+</code></pre>
+<p>fanwei 用户执行<code>任何命令</code>都不需要输入密码</p>
+<pre><code class="shell">fanwei ALL=(ALL) NOPASSWD: ALL
+</code></pre>
+<p>fanwei 用户执行 <code>vim</code>命令时不需要输入密码</p>
+<pre><code class="shell">fanwei ALL=(ALL) NOPASSWD: vim
+</code></pre>
+<h2 id="service命令"><a href="#service命令" class="headerlink" title="service命令"></a>service命令</h2><h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><pre><code class="shell">cd /etc/init.d
+</code></pre>
+<h2 id="终端代理"><a href="#终端代理" class="headerlink" title="终端代理"></a>终端代理</h2><pre><code class="shell">echo &gt;&gt; ~/.zshrc &quot;export ALL_PROXY=socks5://172.24.208.1:7890&quot;
+</code></pre>
+<pre><code>source ~/.zshrc
+</code></pre>
+<h2 id="服务自启"><a href="#服务自启" class="headerlink" title="服务自启"></a>服务自启</h2><h3 id="定义自启服务"><a href="#定义自启服务" class="headerlink" title="定义自启服务"></a>定义自启服务</h3><pre><code class="shell">sudo vim /etc/init.wsl
+</code></pre>
+<h3 id="写入自启内容"><a href="#写入自启内容" class="headerlink" title="写入自启内容"></a>写入自启内容</h3><pre><code class="bash">#! /bin/sh
+/etc/init.d/ssh $1
+/etc/init.d/mysql $1
+</code></pre>
+<h3 id="修改权限"><a href="#修改权限" class="headerlink" title="修改权限"></a>修改权限</h3><pre><code class="shell">sudo chmod +x /etc/init.wsl
+</code></pre>
+<h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><pre><code class="shell">sudo /etc/init.wsl [start|stop|restart]
+</code></pre>
+<h3 id="Windows-端"><a href="#Windows-端" class="headerlink" title="Windows 端"></a>Windows 端</h3><p><code>Win</code> + <code>R</code> 输入 <code>shell:startup</code> </p>
+<p>新建文件：<code>wslStartUp</code></p>
+<pre><code class="vbscript">Set ws = CreateObject(&quot;Wscript.Shell&quot;)
+ws.run &quot;wsl -d Ubuntu -u root /etc/init.wsl start&quot;, vbhide
+</code></pre>
+<blockquote>
+<p>如果遇到启动失败，把 <code>wsl -d Ubuntu -u root /etc/init.wsl start</code> 在命令行中运行即可看到错误</p>
+</blockquote>
+<h2 id="安装-net-tools"><a href="#安装-net-tools" class="headerlink" title="安装 net-tools"></a>安装 net-tools</h2><pre><code class="shell">sudo apt install net-tools
+</code></pre>
+<pre><code class="shell">ifconfig
+</code></pre>
+<h2 id="安装gcc"><a href="#安装gcc" class="headerlink" title="安装gcc"></a>安装gcc</h2><pre><code class="shell">sudo apt install gcc
+</code></pre>
+<h2 id="安装-git"><a href="#安装-git" class="headerlink" title="安装 git"></a>安装 git</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre><code class="console">sudo apt install git
+</code></pre>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>设置名称&amp;邮箱</p>
+<pre><code class="console">git config --global user.name &quot;fanwei&quot;
+</code></pre>
+<pre><code class="console">git config --global user.email &quot;zxr615@foxmail.com&quot;
+</code></pre>
+<p>不转义(git status 正常显示中文)</p>
+<pre><code class="shell">git config --global core.quotepath false
+</code></pre>
+<h3 id="安装-zsh"><a href="#安装-zsh" class="headerlink" title="安装 zsh"></a>安装 zsh</h3><h3 id="zsh"><a href="#zsh" class="headerlink" title="zsh"></a>zsh</h3><pre><code class="shell">sudo apt install zsh
+</code></pre>
+<h3 id="oh-my-zsh"><a href="#oh-my-zsh" class="headerlink" title="oh-my-zsh"></a>oh-my-zsh</h3><pre><code class="shell">sh -c &quot;$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&quot;
+</code></pre>
+<pre><code class="console">Do you want to change your default shell to zsh? [Y/n] Y
+你想把你的默认shell改为zsh吗？[Y/n] Y
+</code></pre>
+<h3 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h3><p>zsh-autosuggestion 自动补全</p>
+<pre><code class="shell">git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+</code></pre>
+<p>zsh-syntax-highlighting  命令高亮</p>
+<pre><code class="shell">git clone git://github.com/zsh-users/zsh-syntax-highlighting $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+</code></pre>
+<h3 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h3><pre><code class="shell">vim ~/.zshrc
+</code></pre>
+<pre><code class="shell">plugins=(
+  git
+  zsh-autosuggestions
+  # 命令是否正确提示，放在最下面
+  zsh-syntax-highlighting
+)
+</code></pre>
+<h2 id="php-amp-php-fpm-amp-composer"><a href="#php-amp-php-fpm-amp-composer" class="headerlink" title="php&amp;php-fpm&amp;composer"></a>php&amp;php-fpm&amp;composer</h2><h3 id="php"><a href="#php" class="headerlink" title="php"></a>php</h3><pre><code class="shell">sudo apt install php
+</code></pre>
+<p>ext-curl</p>
+<pre><code class="shell">sudo apt install ext-curl
+</code></pre>
+<p>ext-dom</p>
+<pre><code>sudo apt install php7.4-xml
+</code></pre>
+<blockquote>
+<p>指定php版本，不指定版本使用默认版本</p>
+</blockquote>
+<h3 id="php-fpm"><a href="#php-fpm" class="headerlink" title="php-fpm"></a>php-fpm</h3><pre><code class="shell">sudo apt install php-fpm
+</code></pre>
+<h3 id="composer"><a href="#composer" class="headerlink" title="composer"></a>composer</h3><pre><code class="shell">sudo apt install composer
+</code></pre>
+<p>更改源</p>
+<pre><code class="sehll">composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
+</code></pre>
+<p>多线程</p>
+<pre><code class="shell">composer global require hirak/prestissimo -vvv
+</code></pre>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><pre><code>service php7.4-fpm start
+</code></pre>
+<h3 id="启动脚本软链"><a href="#启动脚本软链" class="headerlink" title="启动脚本软链"></a>启动脚本软链</h3><blockquote>
+<p>启动时可用 <code>service php-fpm start</code></p>
+</blockquote>
+<pre><code>sudo ln -s /etc/init.d/php7.4-fpm /etc/init.d/php-fpm
+</code></pre>
+<h2 id="安装-go"><a href="#安装-go" class="headerlink" title="安装 go"></a>安装 go</h2><p><a target="_blank" rel="noopener" href="https://golang.org/doc/install?download=go1.16.4.linux-amd64.tar.gz">https://golang.org/doc/install?download=go1.16.4.linux-amd64.tar.gz</a></p>
+<h2 id="安装-nodejs"><a href="#安装-nodejs" class="headerlink" title="安装 nodejs"></a>安装 nodejs</h2><h3 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h3><p><a target="_blank" rel="noopener" href="https://github.com/nodesource/distributions#installation-instructions">https://github.com/nodesource/distributions#installation-instructions</a></p>
+<pre><code class="shell">curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+</code></pre>
+<pre><code class="shell">sudo apt install -y nodejs
+</code></pre>
+<pre><code class="shell">node -v
+</code></pre>
+<h2 id="安装-nginx"><a href="#安装-nginx" class="headerlink" title="安装 nginx"></a>安装 nginx</h2><pre><code class="shell">sudo apt install nginx
+</code></pre>
+<h2 id="安装-redis"><a href="#安装-redis" class="headerlink" title="安装 redis"></a>安装 redis</h2><h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><pre><code class="shell">sudo apt install redis
+</code></pre>
+<h3 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h3><pre><code class="shell">service redis-server start
+</code></pre>
+<h2 id="安装-mysql"><a href="#安装-mysql" class="headerlink" title="安装 mysql"></a>安装 mysql</h2><pre><code class="console">sudo apt install mysql-server
+</code></pre>
+<h3 id="启动-2"><a href="#启动-2" class="headerlink" title="启动"></a>启动</h3><pre><code class="shell">sudo service mysql start
+</code></pre>
+<pre><code class="shell">sudo service mysql stop
+</code></pre>
+<pre><code class="shell">sudo service mysql restart
+</code></pre>
+<h3 id="设置安全向导"><a href="#设置安全向导" class="headerlink" title="设置安全向导"></a>设置安全向导</h3><pre><code class="console">sudo mysql_secure_installation
+</code></pre>
+<pre><code class="console">Do you wish to continue with the password provided?(Press y|Y for Yes, any other key for No) :N
+您是否要继续使用提供的密码？（按y | Y表示是，按其他任意键表示否）：N
+
+Please set the password for root here.
+请在这里为root设置密码。
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) :y
+删除匿名用户？Y
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) :N
+不允许远程登录根目录？n
+
+Remove test database and access to it? y
+删除测试数据库和对它的访问？ y
+
+Reload privilege tables now? y
+现在重新加载权限表？y
+</code></pre>
+<h3 id="创建一个mysql用户"><a href="#创建一个mysql用户" class="headerlink" title="创建一个mysql用户"></a>创建一个mysql用户</h3><pre><code class="shell">create user fanwei identified by &#39;123456&#39;;
+</code></pre>
+<h3 id="查看用户权限"><a href="#查看用户权限" class="headerlink" title="查看用户权限"></a>查看用户权限</h3><pre><code class="shell"> SHOW GRANTS FOR fanwei;
+</code></pre>
+<pre><code class="console">+------------------------------------+
+| Grants for fanwei@%                |
++------------------------------------+
+| GRANT USAGE ON *.* TO `fanwei`@`%` |
++------------------------------------+
+</code></pre>
+<h3 id="给予root权限"><a href="#给予root权限" class="headerlink" title="给予root权限"></a>给予root权限</h3><pre><code># 分配 所有权限 所有数据库.所有表 给 fanwei用户
+GRANT ALL ON *.* TO fanwei;
+</code></pre>
+<h3 id="刷新用户权限"><a href="#刷新用户权限" class="headerlink" title="刷新用户权限"></a>刷新用户权限</h3><pre><code class="shell">FLUSH PRIVILEGES;
+</code></pre>
+<h3 id="查看用户"><a href="#查看用户" class="headerlink" title="查看用户"></a>查看用户</h3><pre><code class="shell">SELECT * FROM `user` WHERE User=&quot;fanwei&quot;\G
+</code></pre>
+<h3 id="配置文件-1"><a href="#配置文件-1" class="headerlink" title="配置文件"></a>配置文件</h3><pre><code class="shell">sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+</code></pre>
+<p>监听所有 ip</p>
+<pre><code>bind-address            = 0.0.0.0
+mysqlx-bind-address     = 0.0.0.0
+</code></pre>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="查询配置信息"><a href="#查询配置信息" class="headerlink" title="查询配置信息"></a>查询配置信息</h4><pre><code class="shell">mysqld --verbose --help | more
+</code></pre>
+<pre><code>...
+Default options are read from the following files in the given order:
+默认选项按照给定的顺序从以下文件中读取
+/etc/my.cnf /etc/mysql/my.cnf /opt/homebrew/etc/my.cnf ~/.my.cnf
+The following groups are read: mysqld server mysqld-8.0
+The following options may be given as the first argument:
+...
+</code></pre>
+<h3 id="免密登录"><a href="#免密登录" class="headerlink" title="免密登录"></a>免密登录</h3><p>常常会遇到密码忘记，或者刚设置好然后登录不上的情况，这个时候就需要免密进入后再进行配置</p>
+<pre><code class="shell">vim ~/.my.cnf
+</code></pre>
+<p>加入配置，重启</p>
+<pre><code class="she">[mysqld]
+skip-grant-tables
+</code></pre>
+<p>重新进入</p>
+<pre><code class="shell">mysql -u root -p
+</code></pre>
+<h3 id="查看安全变量值"><a href="#查看安全变量值" class="headerlink" title="查看安全变量值"></a>查看安全变量值</h3><pre><code class="shell">SHOW VARIABLES LIKE &#39;validate_password%&#39;;
+</code></pre>
+<pre><code class="console">mysql&gt; SHOW VARIABLES LIKE &#39;validate_password%&#39;;
++--------------------------------------+--------+
+| Variable_name                        | Value  |
++--------------------------------------+--------+
+| validate_password.check_user_name    | ON     |
+| validate_password.dictionary_file    |        |
+| validate_password.length             | 8      |
+| validate_password.mixed_case_count   | 1      |
+| validate_password.number_count       | 1      |
+| validate_password.policy             | MEDIUM |
+| validate_password.special_char_count | 1      |
++--------------------------------------+--------+
+</code></pre>
+<h3 id="密码强度"><a href="#密码强度" class="headerlink" title="密码强度"></a>密码强度</h3><pre><code>SET GLOBAL validate_password.policy=LOW;    # 低
+SET GLOBAL validate_password.policy=MEDIUM; # 中
+SET GLOBAL validate_password.policy=STRONG; # 高
+</code></pre>
+<h3 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h3><ol>
+<li><p>将旧密码指控</p>
+<pre><code class="shell">use mysql
+</code></pre>
+<pre><code class="shell">update user set authentication_string = &#39;&#39; where user = &#39;root&#39;;
+</code></pre>
+<pre><code class="shell">quit
+</code></pre>
+</li>
+<li><p>去除免密码登陆配置</p>
+<pre><code>skip-grant-tables
+</code></pre>
+</li>
+<li><p>重启</p>
+</li>
+<li><p>重新登录数据库</p>
+<pre><code class="shell">mysql -u root -p
+</code></pre>
+</li>
+<li><p>重置</p>
+<pre><code class="shell">ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;fw123456&#39;;
+</code></pre>
+</li>
+</ol>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 zxr615@foxmail.com </span>
+    </div>
+</article>
+
+
+
+
+
+    <div id="comments"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script type="text/javascript">
+    $.getScript('/js/gitalk.js', function () {
+        var gitalk = new Gitalk({
+            clientID: '0ea9b0a66146ed3dcc20',
+            clientSecret: '84534118312b9898c87ab706630d7a5902a539c8',
+            repo: 'zxr615.github.io',
+            owner: 'zxr615',
+            admin: ['zxr615'],
+            id: decodeURI(location.pathname),
+            distractionFreeMode: 'true',
+            language: 'zh-CN',
+            perPage: parseInt('10',10),
+            proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token',
+        })
+        gitalk.render('comments')
+    })
+</script>
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2016-2020 Yelog
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

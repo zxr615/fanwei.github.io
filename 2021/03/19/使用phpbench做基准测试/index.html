@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>使用phpbench做基准测试 | Hexo</title>
+  <meta name="keywords" content=" Test , Benchmark ">
+  <meta name="description" content="使用phpbench做基准测试 | Hexo">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="http://example.com/about/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-15T13:25:11.000Z">
+<meta property="article:modified_time" content="2021-08-08T07:07:19.356Z">
+<meta property="article:author" content="Fan Wei">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>Fan Wei</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:zxr615@foxmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(16)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="读书">
+                        
+                        读书
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="运维">
+                        
+                        运维
+                        <small>(8)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Goland">
+                        
+                        Goland
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="PHP">
+                        
+                        PHP
+                        <small>(5)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="16">
+<input type="hidden" id="yelog_site_word_count" value="12.6k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>股票</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>基金</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>设计模式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>投资</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Alipay</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Benchmark</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>brew</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>DI</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Goland</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Golang</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>IoC</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Laravel</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>mac</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>node</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>php</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>PHP</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Samba</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>software</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SSH</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Template</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Test</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Ubuntu</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>wsl2</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>xdebug</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <div id="local-search-result">
+
+    </div>
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 "
+           href="/2021/09/13/escase/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2021-09-13 21:45:53">2021/09/13</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/08/25/brew-%E5%AE%89%E8%A3%85-php/"
+           data-tag="brew,PHP"
+           data-author="" >
+            <span class="post-title" title="brew 安装 php">brew 安装 php</span>
+            <span class="post-date" title="2021-08-25 11:45:07">2021/08/25</span>
+        </a>
+        
+        <a  class="全部文章 读书 "
+           href="/2021/08/09/%E6%8C%87%E6%95%B0%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84%E6%8C%87%E5%8D%97/"
+           data-tag="基金,投资,股票"
+           data-author="" >
+            <span class="post-title" title="《指数基金投资指南》">《指数基金投资指南》</span>
+            <span class="post-date" title="2021-08-09 21:20:46">2021/08/09</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/05/24/wsl-Ubuntu%E5%AE%89%E8%A3%85%E5%A5%BD%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/"
+           data-tag="Linux,wsl2,Ubuntu"
+           data-author="" >
+            <span class="post-title" title="wsl-Ubuntu安装好后的配置">wsl-Ubuntu安装好后的配置</span>
+            <span class="post-date" title="2021-05-24 23:20:45">2021/05/24</span>
+        </a>
+        
+        <a  class="全部文章 Goland "
+           href="/2021/05/13/%E4%BD%BF%E7%94%A8Goland%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF%E7%94%9F%E6%88%90%E6%96%87%E4%BB%B6/"
+           data-tag="Golang,Goland,Template"
+           data-author="" >
+            <span class="post-title" title="使用Goland文件模板生成文件">使用Goland文件模板生成文件</span>
+            <span class="post-date" title="2021-05-13 19:29:52">2021/05/13</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/05/06/%E6%9B%B4%E6%8D%A2-brew-%E6%BA%90/"
+           data-tag="mac,brew"
+           data-author="" >
+            <span class="post-title" title="更换 brew 源">更换 brew 源</span>
+            <span class="post-date" title="2021-05-06 10:34:35">2021/05/06</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/04/23/%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/"
+           data-tag="software"
+           data-author="" >
+            <span class="post-title" title="常用软件">常用软件</span>
+            <span class="post-date" title="2021-04-23 09:53:50">2021/04/23</span>
+        </a>
+        
+        <a  class="全部文章 PHP "
+           href="/2021/04/15/%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E9%87%8D%E5%86%99%E6%94%AF%E4%BB%98%E6%A8%A1%E5%9D%97(%E4%BA%8C)-%E4%BC%98%E5%8C%96$request/"
+           data-tag="Laravel,Alipay,设计模式"
+           data-author="" >
+            <span class="post-title" title="使用策略模式和简单工厂模式重写支付模块(二)-优化$request">使用策略模式和简单工厂模式重写支付模块(二)-优化$request</span>
+            <span class="post-date" title="2021-04-15 18:50:17">2021/04/15</span>
+        </a>
+        
+        <a  class="全部文章 PHP "
+           href="/2021/04/07/%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84IoC%E5%AE%B9%E5%99%A8%EF%BC%8C%E7%90%86%E8%A7%A3%E4%BB%80%E4%B9%88%E6%98%AF%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E5%92%8C%E6%8E%A7%E5%88%B6%E5%8F%8D%E8%BD%AC/"
+           data-tag="Laravel,IoC,DI"
+           data-author="" >
+            <span class="post-title" title="写一个简单的IoC容器案例，理解什么是依赖注入和控制反转">写一个简单的IoC容器案例，理解什么是依赖注入和控制反转</span>
+            <span class="post-date" title="2021-04-07 17:35:54">2021/04/07</span>
+        </a>
+        
+        <a  class="全部文章 PHP "
+           href="/2021/04/06/xdebug&phpstorm%E8%B0%83%E8%AF%95/"
+           data-tag="xdebug,php"
+           data-author="" >
+            <span class="post-title" title="xdebug &amp; phpstorm 调试">xdebug &amp; phpstorm 调试</span>
+            <span class="post-date" title="2021-04-06 11:16:54">2021/04/06</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/03/24/wsl2%20ip%E9%85%8D%E7%BD%AE/"
+           data-tag="Linux,wsl2,Ubuntu"
+           data-author="" >
+            <span class="post-title" title="wsl2 ip配置">wsl2 ip配置</span>
+            <span class="post-date" title="2021-03-24 22:06:43">2021/03/24</span>
+        </a>
+        
+        <a  class="全部文章 PHP "
+           href="/2021/03/19/%E4%BD%BF%E7%94%A8phpbench%E5%81%9A%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95/"
+           data-tag="Test,Benchmark"
+           data-author="" >
+            <span class="post-title" title="使用phpbench做基准测试">使用phpbench做基准测试</span>
+            <span class="post-date" title="2021-03-19 11:31:28">2021/03/19</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/03/18/ubuntu/"
+           data-tag="node,Linux"
+           data-author="" >
+            <span class="post-title" title="ubuntu安装node">ubuntu安装node</span>
+            <span class="post-date" title="2021-03-18 23:33:29">2021/03/18</span>
+        </a>
+        
+        <a  class="全部文章 PHP "
+           href="/2021/03/18/%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E9%87%8D%E5%86%99%E6%94%AF%E4%BB%98%E6%A8%A1%E5%9D%97/"
+           data-tag="Laravel,Alipay,设计模式"
+           data-author="" >
+            <span class="post-title" title="使用策略模式和简单工厂模式重写支付模块">使用策略模式和简单工厂模式重写支付模块</span>
+            <span class="post-date" title="2021-03-18 14:44:45">2021/03/18</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2021/01/01/ssh%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/"
+           data-tag="SSH"
+           data-author="" >
+            <span class="post-title" title="ssh使用记录">ssh使用记录</span>
+            <span class="post-date" title="2021-01-01 21:55:06">2021/01/01</span>
+        </a>
+        
+        <a  class="全部文章 运维 "
+           href="/2020/11/11/samba%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/"
+           data-tag="Samba"
+           data-author="" >
+            <span class="post-title" title="samba使用记录">samba使用记录</span>
+            <span class="post-date" title="2020-11-11 23:57:16">2020/11/11</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-使用phpbench做基准测试" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">使用phpbench做基准测试</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="PHP">PHP</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">Test</a>
+            
+            <a class="color5">Benchmark</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2021-08-08 15:07:19'>2021-03-19 11:31</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>字数:272</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+        <span class="top-comment" title="跳转至评论区">
+            <a href="#comments">
+                评论:<span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </a>
+        </span>
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%9C%B0%E5%9D%80"><span class="toc-text">项目地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E5%9C%B0%E5%9D%80"><span class="toc-text">文档地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85phpbench"><span class="toc-text">安装phpbench</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAphpbench-json-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">创建phpbench.json 配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9composer-json"><span class="toc-text">修改composer.json</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0-autoloader"><span class="toc-text">更新 autoloader</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99Bench%E4%BB%A3%E7%A0%81"><span class="toc-text">编写Bench代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%B5%8B%E8%AF%95"><span class="toc-text">执行测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C"><span class="toc-text">结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-text">注意</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h2><p><a target="_blank" rel="noopener" href="https://github.com/phpbench/phpbench">https://github.com/phpbench/phpbench</a></p>
+<h2 id="文档地址"><a href="#文档地址" class="headerlink" title="文档地址"></a>文档地址</h2><p><a target="_blank" rel="noopener" href="https://phpbench.readthedocs.io/en/latest/quick-start.html">https://phpbench.readthedocs.io/en/latest/quick-start.html</a></p>
+<h2 id="安装phpbench"><a href="#安装phpbench" class="headerlink" title="安装phpbench"></a>安装phpbench</h2><pre><code class="console">composer global require phpbench/phpbench --dev -vvv
+</code></pre>
+<h2 id="创建phpbench-json-配置文件"><a href="#创建phpbench-json-配置文件" class="headerlink" title="创建phpbench.json 配置文件"></a>创建phpbench.json 配置文件</h2><p>在项目的根目录中创建一个文件：<code>phpbench.json</code></p>
+<p><a target="_blank" rel="noopener" href="https://phpbench.readthedocs.io/en/latest/quick-start.html#phpbench-configuration">PHPBench配置</a></p>
+<pre><code class="json">&#123;
+    &quot;bootstrap&quot;: &quot;vendor/autoload.php&quot;
+&#125;
+</code></pre>
+<h2 id="修改composer-json"><a href="#修改composer-json" class="headerlink" title="修改composer.json"></a>修改composer.json</h2><pre><code class="json">&quot;autoload-dev&quot;: &#123;
+    &quot;psr-4&quot;: &#123;
+        &quot;Acme\\Tests\\&quot;: &quot;tests/&quot;
+    &#125;
+&#125;,
+</code></pre>
+<h2 id="更新-autoloader"><a href="#更新-autoloader" class="headerlink" title="更新 autoloader"></a>更新 autoloader</h2><pre><code class="console">composer du
+</code></pre>
+<h2 id="编写Bench代码"><a href="#编写Bench代码" class="headerlink" title="编写Bench代码"></a>编写Bench代码</h2><p>方法必须以 <code>bench</code> 开头</p>
+<pre><code class="php">class Test
+&#123;
+    public function benchTest()
+    &#123;
+        usleep(300);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="执行测试"><a href="#执行测试" class="headerlink" title="执行测试"></a>执行测试</h2><pre><code>phpbench run tests/Benchmark/Test.php --report=default
+</code></pre>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><pre><code class="console">➜  pay phpbench run tests/Benchmark/Test.php --report=default
+PhpBench @git_tag@. Running benchmarks.
+Using configuration file: /Users/tuju/Project/pay/phpbench.json
+
+\Tests\Benchmark\Test
+
+    benchConsume............................I0 [μ Mo]/r: 481.000 481.000 (μs) [μSD μRSD]/r: 0.000μs 0.00%
+
+1 subjects, 1 iterations, 1 revs, 0 rejects, 0 failures, 0 warnings
+(best [mean mode] worst) = 481.000 [481.000 481.000] 481.000 (μs)
+⅀T: 481.000μs μSD/r 0.000μs μRSD/r: 0.000%
+suite: 134628febd27af811e3ceaa765bccf4c891bc2f4, date: 2021-03-19, stime: 04:11:57
++-----------+--------------+-----+------+------+------------+-----------+--------------+----------------+
+| benchmark | subject      | set | revs | iter | mem_peak   | time_rev  | comp_z_value | comp_deviation |
++-----------+--------------+-----+------+------+------------+-----------+--------------+----------------+
+| Test      | benchConsume | 0   | 1    | 0    | 4,270,848b | 481.000μs | 0.00σ        | 0.00%          |
++-----------+--------------+-----+------+------+------------+-----------+--------------+----------------+
+</code></pre>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>使用 <code>composer</code> 命令需要将 <code>composer</code> 的 <code>bin</code> 目录给 <code>export</code> 出来</p>
+<pre><code class="console">export PATH=&quot;$HOME/.composer/vendor/bin&quot;:$PATH
+</code></pre>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 zxr615@foxmail.com </span>
+    </div>
+</article>
+
+
+
+
+
+    <div id="comments"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script type="text/javascript">
+    $.getScript('/js/gitalk.js', function () {
+        var gitalk = new Gitalk({
+            clientID: '0ea9b0a66146ed3dcc20',
+            clientSecret: '84534118312b9898c87ab706630d7a5902a539c8',
+            repo: 'zxr615.github.io',
+            owner: 'zxr615',
+            admin: ['zxr615'],
+            id: decodeURI(location.pathname),
+            distractionFreeMode: 'true',
+            language: 'zh-CN',
+            perPage: parseInt('10',10),
+            proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token',
+        })
+        gitalk.render('comments')
+    })
+</script>
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2016-2020 Yelog
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
