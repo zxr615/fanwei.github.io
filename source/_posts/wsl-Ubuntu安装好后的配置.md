@@ -549,6 +549,7 @@ vim ~/.my.cnf
 
 ```she
 [mysqld]
+# 免密登录
 skip-grant-tables
 ```
 
@@ -557,6 +558,44 @@ skip-grant-tables
 ```shell
 mysql -u root -p
 ```
+
+### 常用配置
+
+> [mysqld] 下设置
+
+#### 开启查询日志
+
+```shell
+# 开启查询日志
+general-log=1
+# 设置日志位置
+general-log-file=
+```
+
+或者命令行中执行
+
+```
+set GLOBAL general_log='ON';
+```
+
+查询是否开启
+
+```shell
+SHOW VARIABLES LIKE 'general%';
+```
+
+```console
+mysql> SHOW VARIABLES LIKE 'general%';
++------------------+----------------------------------------------+
+| Variable_name    | Value                                        |
++------------------+----------------------------------------------+
+| general_log      | ON                                           |
+| general_log_file | /opt/homebrew/var/mysql/fanweideMac-mini.log |
++------------------+----------------------------------------------+
+2 rows in set (0.00 sec)
+```
+
+
 
 ### 查看安全变量值
 
