@@ -662,4 +662,13 @@ SET GLOBAL validate_password.policy=STRONG; # 高
    ALTER USER 'root'@'localhost' IDENTIFIED BY 'fw123456';
    ```
 
-   
+## deepin or linux 改键
+
+1. 查看与 Ctrl 键有关的映射
+  ```shell
+  localectl list-x11-keymap-options | grep ctrl:
+  ```
+2. 交换 lalt 和 lctl
+  ```shell
+  gsettings set com.deepin.dde.keyboard layout-options '["ctrl:swap_lalt_lctl"]'
+  ```
