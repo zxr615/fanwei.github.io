@@ -14,6 +14,50 @@ date: 2021-05-24 23:20:45
 
 
 
+## Ubuntu server 
+
+### 链接 wifi
+
+[https://linux.cn/article-12628-1.html](https://linux.cn/article-12628-1.html)
+
+查看网卡名称
+
+```shell
+ls /sys/class/net
+```
+
+修改配置
+
+```shell
+vim /etc/netplan/xxx-wifi.yaml # 
+```
+
+```yaml
+network:
+  version: 2
+  wifis:
+    wlan0:
+        dhcp4: true
+        optional: true
+        access-points:
+            "网络名称":
+                password: "wifi密码"
+```
+
+应用
+
+```shell
+sudo netplan apply
+```
+
+注：生成配置，似乎不执行也行
+
+```shell
+sudo netplan generate
+```
+
+
+
 ## 切换 apt 源
 
 [https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)
