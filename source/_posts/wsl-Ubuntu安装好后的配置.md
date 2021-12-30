@@ -70,7 +70,23 @@ sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak && sudo vim /etc/apt/sou
 sudo apt update
 ```
 
+### 问题
 
+- `apt update` 一直提示 443 
+
+  安装系统的时候有一项 `proxy` 误设置成了软件源链接，导致代理出错，将系统代理去掉
+
+  系统代理位置
+
+  ```shell
+  /etc/apt/apt.conf.d/90curtin-aptproxy
+  ```
+
+  ```
+  /etc/systemd/system/snapd.service.d/snap_proxy.conf
+  ```
+
+  
 
 ## 配置 SSH
 
