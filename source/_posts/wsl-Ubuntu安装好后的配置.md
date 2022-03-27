@@ -732,3 +732,33 @@ SET GLOBAL validate_password.policy=STRONG; # 高
   ```shell
   gsettings set com.deepin.dde.keyboard layout-options '["ctrl:swap_lalt_lctl"]'
   ```
+
+
+## 技巧
+### grep 显示标题行
+
+无标题行
+
+```shell
+ps -ef | grep php-fpm
+```
+
+```console
+501 19144     1   0  3:09下午 ??         0:00.10 /opt/homebrew/opt/php@7.4/sbin/php-fpm --nodaemonize
+501 19148 19144   0  3:09下午 ??         1:36.26 /opt/homebrew/opt/php@7.4/sbin/php-fpm --nodaemonize
+501 19149 19144   0  3:09下午 ??         1:35.09 /opt/homebrew/opt/php@7.4/sbin/php-fpm --nodaemonize
+```
+
+使用命令 `head` 来显示标题行
+
+```sehll
+ps -ef | head -1;ps -ef |grep php-fpm
+```
+
+```shell
+UID   PID  PPID   C STIME   TTY           TIME CMD
+501 19144     1   0  3:09下午 ??         0:00.10 /opt/homebrew/opt/php@7.4/sbin/php-fpm --nodaemonize
+501 19148 19144   0  3:09下午 ??         1:36.26 /opt/homebrew/opt/php@7.4/sbin/php-fpm --nodaemonize
+501 19149 19144   0  3:09下午 ??         1:35.09 /opt/homebrew/opt/php@7.4/sbin/php-fpm --nodaemonize
+```
+
