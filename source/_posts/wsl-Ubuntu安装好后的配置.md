@@ -395,6 +395,31 @@ sudo apt install php7.4-xml
 sudo apt install php-fpm
 ```
 
+### 切换多个php版本
+```shell
+sudo update-alternatives --set php /usr/bin/php7.2
+```
+
+### pecl
+解决多个 `php` 版本时 `pecl` 安装会显示重复
+#### 安装
+```shell
+pecl -d php_suffix=7.2 install <package>
+```
+#### 卸载
+```sehll
+pecl uninstall -r <package>
+```
+#### 安装指定版本
+先搜索扩展版本
+```shell
+https://pecl.php.net/package-search.php?pkg_name=
+```
+再指定扩展地址
+```shell
+pecl -d php_suffix=7.2 install https://pecl.php.net/get/rdkafka-5.0.2.tgz
+```
+
 ###  composer
 
 ```shell
